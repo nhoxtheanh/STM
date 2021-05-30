@@ -1,52 +1,64 @@
 @startuml 
 
-class MapGUI { 
+class MapGUI {  
 
- 
+  
 
-renderMap() 
+  
 
-renderMonster() 
+  
 
-renderSpell() 
+renderPlayerMap() 
+
+renderOponentMap() 
+
+renderMonster()  
+
+renderSpell()  
 
 renderTower() 
 
-  
-
-} 
+}  
 
   
 
-class GamePlayManager { 
+   
 
   
 
-mapGUI: MapGUI 
-
-creatureListA: Creature [] 
-
-creatureListB: Creature [] 
-
-towerListA: Tower [] 
+class GamePlayManager {  
 
   
 
-generateMap() 
+mapGUI: MapGUI  
 
-spawnMonster() 
+creatureListA: Creature []  
 
-addAndCheckSpell() 
+creatureListB: Creature []  
 
-updateMonster() 
+towerListA: Tower []  
 
-updateTower() 
+towerListB: Tower []  
 
-onPlaceCard() 
+   
 
-checkSpellEffect() 
+   
 
-  
+generateMap()  
+
+addMapData() 
+
+spawnMonster()  
+
+addAndCheckSpell()  
+
+updateMonster()  
+
+updateTower()  
+
+onPlaceCard()  
+
+checkSpellEffect()  
 
 } 
 
@@ -81,8 +93,6 @@ render()
 onStartFindingMatch() 
 
 } 
-
-  
 
   
 
@@ -224,35 +234,119 @@ GamePlayManager--Spell
 
  
 
-class Attribute{} 
+class PlayerInfo{ 
 
-  
+    id: int 
 
-class TowerAttribute{ 
+    name: string 
 
-int damage 
+    Ava: img 
 
-int speed 
+    credit: int 
 
-int distance 
+    gold: Gold 
 
-int shotType 
+    g: G 
 
-int target 
+    == 
 
-timespan buildingTime 
+    void update() 
 
 } 
 
   
 
-class MagicAttribute{} 
+class Attribute{ 
+
+} 
+
+  
+
+class TowerAttribute{ 
+
+    type: int 
+
+    damage: int 
+
+    speed: int 
+
+    distance: int 
+
+    shotType: int 
+
+    target: int 
+
+    buildingTime: timespan 
+
+} 
+
+  
+
+  
+
+class SpellAttribute { 
+
+    type: int 
+
+    effectNumber: float  
+
+    effectTime: int  
+
+    existTime: int  
+
+    damageIncrease: float  
+
+    speedIncrease: float  
+
+    startTime: int  
+
+} 
 
   
 
 class MonsterAttribute{ 
 
-int hp 
+    type: int    
+
+    maxHp: int  
+
+    speed: float  
+
+    gainingEnergy: int   
+
+    damage: int  
+
+    size: float  
+
+    weight: int  
+
+    summoner: int  
+
+    consumingEnergy: int   
+
+    baseAmount: int  
+
+    damage: int  
+
+} 
+
+  
+
+class BossAttribute {  
+
+    type: int  
+
+    maxHp: int  
+
+    speed: float  
+
+    gainingEnergy: int   
+
+    damage: int  
+
+    size: float  
+
+    weight: int  
 
 } 
 
@@ -260,41 +354,39 @@ int hp
 
 class Card{ 
 
-name: string 
+    name: string 
 
-requiredEnergy: int 
+    id: int 
 
-level: int 
+    requiredEnergy: int 
 
-avt: string 
+    level: int 
 
-attribute: Attribute 
+    avt: string 
 
-type: int 
+    attribute: Attribute 
 
-progress: int 
+    size: int 
 
-evolutionaryLv: int 
+    evolutionaryLv: int 
 
-description: string 
+    description: string 
 
-== 
+    == 
 
-void showGUI() 
+    void showGUI() 
 
-void closeGUI() 
+    void closeGUI() 
 
-void levelUp() 
+    void levelUp() 
 
-int checklevelUp() 
+    int checklevelUp() 
 
-void evolutionChange(bool) 
+    void showEvolution() 
 
-bool checkEvolution() 
+    void showInfo() 
 
-void showInfo() 
-
-void closeInfo() 
+    void closeInfo() 
 
 } 
 
@@ -302,35 +394,43 @@ void closeInfo()
 
 class TowerCard{ 
 
-ability: Ability 
+    ability: Ability 
 
-== 
+    == 
 
-void showAbility() 
+    void showAbility() 
 
-bool checkAbility() 
+    bool checkAbility() 
 
 } 
 
   
 
-class MonsterCard{} 
+class MonsterCard{ 
 
   
 
-class MagicCard{} 
+} 
+
+  
+
+class SpellCard{ 
+
+  
+
+} 
 
   
 
 class Ability{ 
 
-icon: string 
+    icon: string 
 
-== 
+    == 
 
-void showGUI() 
+    void showGUI() 
 
-void closeGUI() 
+    void closeGUI() 
 
 } 
 
@@ -338,25 +438,25 @@ void closeGUI()
 
 class CardList{ 
 
-cards: Card[] 
+    cards: Card[] 
 
-name: string 
+    name: string 
 
-== 
+    == 
 
-void sort(int) 
+    void sort(int) 
 
-Card getCard() 
+    Card getCard() 
 
-void removeCard() 
+    void removeCard() 
 
-void insertCard(int) 
+    void insertCard(int) 
 
-int size() 
+    int size() 
 
-void showGUI() 
+    void showGUI() 
 
-void closeGUI() 
+    void closeGUI() 
 
 } 
 
@@ -364,27 +464,31 @@ void closeGUI()
 
 class BattleCardList{ 
 
-cards: Card[8] 
+    cards: Card[8] 
 
 } 
 
   
 
-class CardManager{ 
+class Inventory{ 
 
-battlecards: BattleCardList 
+    battlecards: BattleCardList 
 
-savecards: CardList 
+    savecards: CardList 
 
-== 
+    == 
 
-void showGUI() 
+    void showGUI() 
 
-void closeGUI() 
+    void closeGUI() 
 
-void selectaCard(Card) 
+    void levelup() 
 
-void swapCard(Card, Card) 
+    void checklvup() 
+
+    void selectaCard(int id) 
+
+    void swapCard(int id, int id) 
 
 } 
 
@@ -394,13 +498,15 @@ Attribute <|-- TowerAttribute
 
 Attribute  <|-- MonsterAttribute 
 
-Attribute  <|--  MagicAttribute 
+Attribute  <|--  SpellAttribute 
+
+Attribute  <|--  BossAttribute 
 
   
 
 Card "1" -- "1" Attribute 
 
-Card <|-- MagicCard  
+Card <|-- SpellCard  
 
 Card <|-- MonsterCard 
 
@@ -414,7 +520,7 @@ CardList <|-- BattleCardList
 
 CardList "1" -- "1.." Card 
 
-CardManager "1" -- "1.." CardList 
+Inventory "1" -- "1.." CardList 
 
   
 
@@ -426,101 +532,85 @@ TowerCard "1" -- "1" Ability
 
   
 
-class Chess{ 
+class Chest{ 
 
-name: string 
+    name: string 
 
-state: int 
+    icon: string 
 
-time: time 
+    state: int 
 
-minGold: Gold 
+    time: time 
 
-maxGold: Gold 
+    minGold: Gold 
 
-minCard: int 
+    maxGold: Gold 
 
-maxCard: int 
+    openPrice: Currency 
 
-openPrice: Currency 
+    cards: Card[] 
 
-gold: Gold 
+    cardtype: int[] 
 
-cards: Card[] 
+    == 
 
-cardtype: int[] 
+    void open() 
 
-icon: string 
+    void showGUI() 
 
-== 
+    void closeGUI() 
 
-pair<Gold, Card[]> open() 
+    void showInfo() 
 
-void showGUI() 
+    void closeInfo() 
 
-void closeGUI() 
+    void unlock() 
 
-void showInfo() 
+    void showReceive(Currency, Card[]) 
 
-void unlock() 
+    void closeReceive() 
 
-bool unlocknow() 
-
-void closeInfo() 
-
-void showReceive() 
-
-void closeReceive() 
+    void updateTime() 
 
 } 
 
   
 
-class ChessBox{ 
+class ChestBox{ 
 
-chesses: Chess[4] 
+    chests: Chest[4] 
 
-emtpySlot: int 
+    == 
 
-openingChess: int 
+    void openChest(int) 
 
-== 
+    int checkFull() 
 
-pair<Gold, Card[]> openChess(int) 
+    bool addChest(mingold, maxgold, cards[]) 
 
-int checkSlot() 
+    void showFullDialog() 
 
-bool addChess(Chess) 
-
-int checkOpenable() 
-
-void showFullDialog() 
-
-void closeFullDialog() 
+    void closeFullDialog() 
 
 } 
 
   
 
-ChessBox "1" -- "4" Chess 
-
-  
-
-  
+ChestBox "1" -- "4" Chest 
 
   
 
 class Currency{ 
 
-amount: int 
+    amount: int 
 
-icon: string 
+    icon: string 
 
-== 
+    == 
 
-int add(Currency) 
+    int add(Currency) 
 
-int minus(Currency) 
+    int minus(Currency) 
 
 } 
 
@@ -536,25 +626,27 @@ class G{}
 
 class ShopItem{ 
 
-objects: Object 
+    objects: Object 
 
-price: Currency 
+    price: Currency 
 
-void showInfo() 
+    == 
 
-Object buy() 
+    void showInfo() 
 
-void showGUI() 
+    void closeInfo() 
 
-void closeGUI() 
+    bool checkBuy() 
 
-bool checkBuy() 
+    Object buy() 
 
-void closeInfo() 
+    void showGUI() 
 
-void showReceive() 
+    void closeGUI()  
 
-void closeReceive() 
+    void showReceive() 
+
+    void closeReceive() 
 
 } 
 
@@ -562,33 +654,7 @@ void closeReceive()
 
 class OnceShopItem{ 
 
-state: bool 
-
-} 
-
-  
-
-class ShopItem{ 
-
-objects: Object 
-
-price: Currency 
-
-== 
-
-void showInfo() 
-
-Object buy() 
-
-void showGUI() 
-
-bool checkBuy() 
-
-void closeInfo() 
-
-void showReceive() 
-
-void closeReceive() 
+    state: bool 
 
 } 
 
@@ -598,15 +664,15 @@ void closeReceive()
 
 class ShopItemList{ 
 
-items: ShopItem[] 
+    items: ShopItem[] 
 
-name: string 
+    name: string 
 
-== 
+    == 
 
-void ShowGUI() 
+    void ShowGUI() 
 
-void closeGUI() 
+    void closeGUI() 
 
 } 
 
@@ -614,11 +680,11 @@ void closeGUI()
 
 class TimedShopItemList{ 
 
-renewTime: time 
+    renewTime: time 
 
-== 
+    == 
 
-void renew() 
+    void renew() 
 
 } 
 
@@ -626,13 +692,13 @@ void renew()
 
 class Shop{ 
 
-list: ShopItemList[] 
+    list: ShopItemList[] 
 
-== 
+    == 
 
-void showGUI() 
+    void showGUI() 
 
-void closeGUI() 
+    void closeGUI() 
 
 } 
 
@@ -661,6 +727,24 @@ ShopItem "1.." -- "1" ShopItemList
   
 
 Shop "1" -- "1.." ShopItemList 
+
+  
+
+  
+
+  
+
+  
+
+class Login{ 
+
+    id: string 
+
+    == 
+
+    void callLogin() 
+
+} 
 
  
 
