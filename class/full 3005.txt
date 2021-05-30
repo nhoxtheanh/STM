@@ -335,22 +335,15 @@ class MonsterAttribute{
 
 class BossAttribute {  
 
-    type: int  
-
-    maxHp: int  
-
-    speed: float  
-
-    gainingEnergy: int   
-
-    damage: int  
-
-    size: float  
-
-    weight: int  
+    damage: 5  
 
 } 
 
+class MinionAttribute {  
+
+    damage: 1  
+
+} 
   
 
 class Card{ 
@@ -497,12 +490,15 @@ class Inventory{
 
 Attribute <|-- TowerAttribute 
 
-Attribute  <|-- MonsterAttribute 
-
 Attribute  <|--  SpellAttribute 
 
-Attribute  <|--  BossAttribute 
+Attribute  <|-- CreatureAttribute 
 
+CreatureAttribute <|-- MonsterAttribute 
+
+CreatureAttribute <|-- MinionAttribute 
+
+CreatureAttribute <|--  BossAttribute 
   
 
 Card "1" -- "1" Attribute 
@@ -787,6 +783,8 @@ GetBuff()
 
 class Monster{ 
 
+attribute: MonsterAttribute
+
 summoner: int 
 
 dodgeRate: float 
@@ -881,7 +879,7 @@ type: 5
 
 class Minion{ 
 
-damage: 1 
+attribute: MinionAttribute
 
 } 
 
@@ -889,7 +887,7 @@ damage: 1
 
 class Boss{ 
 
-damage: 5 
+attribute: BossAttribute
 
 == 
 
