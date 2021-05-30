@@ -1,35 +1,38 @@
 title Build Tower
 actor Player
 
-Player->GamePlayManager: onPlaceCard(Card,Point)
-GamePlayManager->Map: checkBuildOrUpgrade(Card,Point)
+Player->PlayGUI: placeCard
+PlayGUI->GamePlayManager: onPlaceCard(Card,Point)
+GamePlayManager->GamePlayManager: checkBuildOrUpgrade(Card,Point)
 
 alt build
-GamePlayManager<-Map: isBuild
 
-GamePlayManager->Map: checkValidPosition(Point)
+GamePlayManager->GamePlayManager: checkValidPosition(Point)
 alt valid position
-Map->GamePlayManager: isValidPosition
 GamePlayManager->Tower: build()
-Tower->GamePlayManager: addTower()
-GamePlayManager->MapGUI: renderTower()
+Tower->GamePlayManager: addTower(TowerData)
+GamePlayManager->GamePlayManagerGUI: renderTower()
+loop while not end game
+Player->PlayGUI: clickOnTower
+PlayGUI->PlayGUI: showSelectTargetDeterminingMethodGUI()
+Player->PlayGUI: selectTargetDeterminingMethod
+PlayGUI->Tower: changeTargetDeterminingMethod(method)
+end
 else invalid position
-Map->GamePlayManager: isNotValidPosition
-GamePlayManager->Player : cancelPlaceCard()
+GamePlayManager->PlayGUI : cancelPlaceCard()
 end
 
 else upgrade
-GamePlayManager<-Map: isUpgrade
-GamePlayManager->Tower: checkUpgradeCondition()
+GamePlayManager->Tower: checkUpgradeCondition(Card)
 
 alt able to upgrade
 Tower->GamePlayManager: ableToUpgrade
 GamePlayManager->Tower: upgrade()
-Tower->GamePlayManager: upgradeTower()
-GamePlayManager->MapGUI: renderTower()
+Tower->GamePlayManager: upgradeTower(TowerData)
+GamePlayManager->GamePlayManagerGUI: renderTower()
 else unable to upgrade
 Tower->GamePlayManager: unAbleToUpgrade
-GamePlayManager->Player : cancelPlaceCard()
+GamePlayManager->PlayGUI : cancelPlaceCard()
 end
 end
 
