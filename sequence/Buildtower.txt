@@ -1,0 +1,35 @@
+title Build Tower
+actor Player
+
+Player->GamePlayManager: onPlaceCard(Card,Point)
+GamePlayManager->Map: checkBuildOrUpgrade(Card,Point)
+
+alt build
+GamePlayManager<-Map: isBuild
+
+GamePlayManager->Map: checkValidPosition(Point)
+alt valid position
+Map->GamePlayManager: isValidPosition
+GamePlayManager->Tower: build()
+Tower->GamePlayManager: addTower()
+GamePlayManager->MapGUI: renderTower()
+else invalid position
+Map->GamePlayManager: isNotValidPosition
+GamePlayManager->Player : cancelPlaceCard()
+end
+
+else upgrade
+GamePlayManager<-Map: isUpgrade
+GamePlayManager->Tower: checkUpgradeCondition()
+
+alt able to upgrade
+Tower->GamePlayManager: ableToUpgrade
+GamePlayManager->Tower: upgrade()
+Tower->GamePlayManager: upgradeTower()
+GamePlayManager->MapGUI: renderTower()
+else unable to upgrade
+Tower->GamePlayManager: unAbleToUpgrade
+GamePlayManager->Player : cancelPlaceCard()
+end
+end
+

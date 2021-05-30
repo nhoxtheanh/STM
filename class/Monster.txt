@@ -1,0 +1,136 @@
+@startuml
+class Creature{
+id: int
+name: string
+type: int
+isActive: bool
+target: int
+position: Point
+hp: int
+speed: float
+gainingEnergy: int 
+damage: int
+size: float
+weight: int
+==
+AttackBase()
+MoveOnPath()
+GetHit()
+GetEffect()
+GetKilled()
+Generate()
+GetBuff()
+}
+
+
+class Monster{
+summoner: int
+consumingEnergy: int 
+baseAmount: int
+damage: 1
+dodgeRate: float
+isBallonMonster: bool
+}
+
+interface I_BalloonMonster{
+isBalloonMonster: true
+balloonCountDown: timespan
+gesture: string
+==
+GetBalloonBuff()
+}
+
+interface I_InfantryCreature{
+isFlyer: false
+==
+FindPath()
+Collide()
+}
+
+class InfantryMonster{
+}
+
+class FlyingMonster{
+isFlyer: true
+}
+
+class Swordsman{
+type: 1
+}
+class Assassin{
+type: 2
+}
+class Giant{
+type: 3
+}
+class Ninja{
+type: 4
+==
+Burrow()
+}
+class Bat{
+type: 5
+}
+
+
+class Minion{
+damage: 1
+}
+
+class Boss{
+damage: 5
+==
+MoveEffect()
+}
+
+class InfantryBoss{
+}
+
+class DarkGiant{
+type: 1
+}
+class Satyr{
+type: 2
+}
+class DesertKing{
+type: 3
+}
+class Iceman{
+type: 4
+}
+class Golem{
+type: 5
+}
+class DemonTree{
+type: 6
+}
+
+Creature <|-- Monster
+Creature <|-- Minion
+Creature <|--  Boss
+
+Monster <|-- InfantryMonster
+Monster <|-- FlyingMonster
+
+InfantryMonster <|-- Swordsman
+InfantryMonster <|-- Assassin
+InfantryMonster <|--  Giant
+InfantryMonster <|--  Ninja
+
+FlyingMonster <|-- Bat
+
+Boss <|-- InfantryBoss
+
+InfantryBoss  <|-- DarkGiant
+InfantryBoss  <|-- Satyr
+InfantryBoss  <|-- DesertKing
+InfantryBoss  <|-- Iceman
+InfantryBoss  <|-- Golem
+InfantryBoss  <|-- DemonTree
+
+I_BalloonMonster <|.. Monster
+
+I_InfantryCreature <|.. InfantryMonster
+I_InfantryCreature <|.. InfantryBoss
+I_InfantryCreature <|.. Minion
+@enduml

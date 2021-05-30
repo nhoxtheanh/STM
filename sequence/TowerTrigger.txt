@@ -1,0 +1,56 @@
+title TowerTriger
+
+alt attack/magic tower
+
+loop while not end game
+
+Tower->Map: checkCreaturesInActiveZone()
+alt no Creature found
+Map->Tower: noCreatureInTowerActiveZone
+else Creatures found
+Map->Tower: listCreaturesInTowerActiveZone
+Tower->PlayGUI: AskPlayerForTargetDeterminingMethod()
+Tower<-PlayGUI: TargetDeterminingMethod()
+Tower->Tower: ChangeTargetDeterminingMethod()
+Tower->Tower: DetermineTarget()
+Tower->GamePlayManager: AttackTarget()
+GamePlayManager->Creature: GetHit()
+GamePlayManager->MapGUI: DisplayHitEffect()
+expandable- creature killed
+GamePlayManager<-Creature: GetKilled()
+GamePlayManager->Map: RemoveCreature()
+GamePlayManager->MapGUI: RemoveCreature()
+end
+expandable- creature have respond effect when hit
+GamePlayManager<-Creature: respondEffect
+Tower<-GamePlayManager: GetEffect()
+end
+end
+end
+
+
+else support tower
+
+loop while not end game
+Tower->Map: checkTowersInActiveZone()
+alt no Tower found
+Map->Tower: noTowerInTowerActiveZone
+else Towes found
+Map->Tower: listTowersInTowerActiveZone
+Tower->GamePlayManager: BuffEffectTower()
+GamePlayManager->TargetTower: GetBuff()
+GamePlayManager->MapGUI: displayBuff()
+end
+
+Tower->Map: checkCreaturesInActiveZone()
+alt no Creature found
+Map->Tower: noCreatureInTowerActiveZone
+else Creatures found
+Map->Tower: listCreaturesInTowerActiveZone
+Tower->GamePlayManager: DoEffectMonster()
+GamePlayManager->Creature: GetEffect()
+GamePlayManager->MapGUI: displayEffect()
+end
+
+end
+end

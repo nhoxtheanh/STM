@@ -1,0 +1,27 @@
+title MonsterMove
+
+loop while not end game
+GamePlayManager->Monster: moveOnPath()
+Monster->Map: findPath()
+Monster<-Map: availabePath()
+Monster<-Monster: move()
+expandable- boss
+GamePlayManager<-Monster: MoveEffect()
+GamePlayManager->MapGUI: displayMoveEffect()
+GamePlayManager->Map: checkCreaturesInEffectRange()
+
+alt no Creature found
+Map->GamePlayManager: noCreatureInBossEffectRange
+else Creatures found
+Map->GamePlayManager: listCreaturesInBossEffectRange
+GamePlayManager->Monster: Buff()
+Monster->OtherMonsters: GetBuff()
+GamePlayManager->MapGUI: DisplayBuffEffect()
+end
+end
+
+GamePlayManager<-Monster: newMonsterPosition
+GamePlayManager->Map: updateMonsterPosition(Monster, Point)
+GamePlayManager->MapGUI: displayMonsterPosition()
+end
+end
