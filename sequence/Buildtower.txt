@@ -11,7 +11,7 @@ GamePlayManager->GamePlayManager: checkValidPosition(Point)
 alt valid position
 GamePlayManager->Tower: build()
 Tower->GamePlayManager: addTower(TowerData)
-GamePlayManager->GamePlayManagerGUI: renderTower()
+GamePlayManager->MapGUI: renderTower()
 loop while not end game
 Player->PlayGUI: clickOnTower
 PlayGUI->PlayGUI: showSelectTargetDeterminingMethodGUI()
@@ -29,7 +29,7 @@ alt able to upgrade
 Tower->GamePlayManager: ableToUpgrade
 GamePlayManager->Tower: upgrade()
 Tower->GamePlayManager: upgradeTower(TowerData)
-GamePlayManager->GamePlayManagerGUI: renderTower()
+GamePlayManager->MapGUI: renderTower()
 else unable to upgrade
 Tower->GamePlayManager: unAbleToUpgrade
 GamePlayManager->PlayGUI : cancelPlaceCard()

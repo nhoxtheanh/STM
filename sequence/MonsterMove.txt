@@ -10,7 +10,7 @@ loop while not reach nextPos
   Monster<-Monster: moveTo(nextPos)
   GamePlayManager<-Monster: newMonsterPosition
   GamePlayManager->GamePlayManager: updateMonsterPosition(Monster, Point)
-  GamePlayManager->GamePlayManagerGUI: displayMonsterPosition()
+  GamePlayManager->MapGUI: displayMonsterPosition()
   GamePlayManager<-Monster: checkCollision(currPos, size, weight, speed)
   expandable- if collide
   	GamePlayManager->Monster: nextPosAfterCollide
@@ -31,7 +31,7 @@ loop while not reach nextPos
 end
 expandable- boss
 GamePlayManager<-Monster: MoveEffect()
-GamePlayManager->GamePlayManagerGUI: displayMoveEffect()
+GamePlayManager->MapGUI: displayMoveEffect()
 GamePlayManager->GamePlayManager: checkCreaturesInBuffRange()
 
 alt no Creature found
@@ -42,7 +42,7 @@ GamePlayManager->Monster: Buff()
 loop for each creature in buff range
 	GamePlayManager->OtherMonsters: buff
 end
-GamePlayManager->GamePlayManagerGUI: DisplayBuffEffect()
+GamePlayManager->MapGUI: DisplayBuffEffect()
 end
 end
 
