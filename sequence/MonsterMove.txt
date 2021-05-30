@@ -1,27 +1,50 @@
+// mỗi lệnh move() trong vòng lặp là thao tác đi đến một điểm mới, trong đó sẽ bao gồm nhiều lệnh moveTo(nextPos) để đi từng bước nhỏ đến điểm đó, vừa đi vừa kiểm tra các event xảy ra với quái
 title MonsterMove
 
 loop while not end game
-GamePlayManager->Monster: moveOnPath()
-Monster->Map: findPath()
-Monster<-Map: availabePath()
-Monster<-Monster: move()
+GamePlayManager->Monster: move()
+Monster->GamePlayManager: getObstacleMap()
+Monster<-GamePlayManager: obstacleMap[]
+Monster->Monster: findPath(currPos, obstacleMap)
+loop while not reach nextPos
+  Monster<-Monster: moveTo(nextPos)
+  GamePlayManager<-Monster: newMonsterPosition
+  GamePlayManager->GamePlayManager: updateMonsterPosition(Monster, Point)
+  GamePlayManager->GamePlayManagerGUI: displayMonsterPosition()
+  GamePlayManager<-Monster: checkCollision(currPos, size, weight, speed)
+  expandable- if collide
+  	GamePlayManager->Monster: nextPosAfterCollide
+      Monster<-Monster: collide(nextPos)
+  end
+  expandable- in range of Effect
+  	  GamePlayManager->Monster: effect
+      Monster<-Monster: getEffect(effect)
+  end
+  expandable- in range of Buff
+      GamePlayManager->Monster: buff
+      Monster<-Monster: getBuff(buff)
+  end
+  expandable- in range of Damage
+      GamePlayManager->Monster: damage
+      Monster<-Monster: getHit(damage)
+  end
+end
 expandable- boss
 GamePlayManager<-Monster: MoveEffect()
-GamePlayManager->MapGUI: displayMoveEffect()
-GamePlayManager->Map: checkCreaturesInEffectRange()
+GamePlayManager->GamePlayManagerGUI: displayMoveEffect()
+GamePlayManager->GamePlayManager: checkCreaturesInBuffRange()
 
 alt no Creature found
-Map->GamePlayManager: noCreatureInBossEffectRange
+GamePlayManager->GamePlayManager: noCreatureInBossEffectRange
 else Creatures found
-Map->GamePlayManager: listCreaturesInBossEffectRange
+GamePlayManager->GamePlayManager: listCreaturesInBossEffectRange
 GamePlayManager->Monster: Buff()
-Monster->OtherMonsters: GetBuff()
-GamePlayManager->MapGUI: DisplayBuffEffect()
+loop for each creature in buff range
+	GamePlayManager->OtherMonsters: buff
+end
+GamePlayManager->GamePlayManagerGUI: DisplayBuffEffect()
 end
 end
 
-GamePlayManager<-Monster: newMonsterPosition
-GamePlayManager->Map: updateMonsterPosition(Monster, Point)
-GamePlayManager->MapGUI: displayMonsterPosition()
 end
 end
