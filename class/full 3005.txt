@@ -264,17 +264,13 @@ class Attribute{
 
 class TowerAttribute{ 
 
+    name: string 
+
     type: int 
 
-    damage: int 
+    impactIndex: float 
 
-    speed: int 
-
-    distance: int 
-
-    shotType: int 
-
-    target: int 
+    distance: float 
 
     buildingTime: timespan 
 
@@ -1005,25 +1001,15 @@ class Tower {
 
 id: int 
 
-name: string 
-
-type: int 
-
 isActive: bool 
 
 summoner: int 
 
 position: Point 
 
-consumingEnergy: int 
-
-impactIndex: float 
-
-distance: float 
-
 evolutedLevel: int 
 
-buildingTime: lifespan 
+attribute: TowerAttribute
 
 Build() 
 
