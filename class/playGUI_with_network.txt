@@ -1,0 +1,7 @@
+title PlayGUI
+
+PlayGUI->GamePlayManager: create()
+GamePlayManager->Network: sendGetUserDeckInfo()
+Network->Network: onReceivedPacket()
+Network->GamePlayManager: onAddUserDeckInfo()
+GamePlayManager->PlayGUI: renderDeck()
