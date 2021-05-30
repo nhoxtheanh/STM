@@ -302,7 +302,24 @@ class SpellAttribute {
 
 } 
 
-  
+class CreatureAttribute{ 
+    name: string 
+
+    type: int    
+
+    maxHp: int  
+
+    baseSpeed: float  
+
+    gainingEnergy: int  
+
+    damage: int 
+
+    size: float 
+
+    weight: int 
+
+} 
 
 class MonsterAttribute{ 
 
@@ -752,10 +769,6 @@ class Creature{
 
 id: int 
 
-name: string 
-
-type: int 
-
 isActive: bool 
 
 target: int 
@@ -765,14 +778,6 @@ position: Point
 hp: int 
 
 speed: float 
-
-gainingEnergy: int  
-
-damage: int 
-
-size: float 
-
-weight: int 
 
 == 
 
