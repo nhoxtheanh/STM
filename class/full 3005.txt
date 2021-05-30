@@ -198,7 +198,29 @@ effectTarget()
 
 } 
 
-  
+class EffectZone { 
+
+effectType: int
+
+effectValue: float  
+
+effectTime: float  
+
+existTime: float  
+
+damageIncrease: float  
+
+speedIncrease: float
+
+FindTargetTower() 
+
+FindTargetMonsters() 
+
+BuffEffectTower() 
+
+DoEffectMonster() 
+
+} 
 
 Spell<|--Heal 
 
@@ -212,6 +234,11 @@ Spell<|--Strength
 
 Spell<|--FireBall 
 
+Heal -- EffectZone
+SpeedUp -- EffectZone
+Frozen -- EffectZone
+Strength -- EffectZone
+FireBall -- EffectZone
  
 
 GamePlayManager--Creature 
@@ -1286,6 +1313,7 @@ Damage_Zone --|> BuffEffectZone
   
 
 ActiveZone <|-- BuffEffectZone 
+ActiveZone <|-- EffectZone 
 
   
 
