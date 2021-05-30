@@ -114,17 +114,7 @@ target: []
 
 energy: int 
 
-effectNumber: float 
-
-effectTime: int 
-
-existTime: int 
-
-damageIncrease: float 
-
-speedIncrease: float 
-
-startTime: int 
+attribute: SpellAttribute
 
 {static} create() 
 
@@ -284,17 +274,21 @@ class SpellAttribute {
 
     type: int 
 
-    effectNumber: float  
+    effectType: int
 
-    effectTime: int  
+    impactIndex: float  
 
-    existTime: int  
+    effectRange: float 
+
+    effectTime: float  
+
+    existTime: float  
 
     damageIncrease: float  
 
     speedIncrease: float  
 
-    startTime: int  
+    triggerTime: float  
 
 } 
 
