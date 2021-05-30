@@ -1,97 +1,64 @@
 @startuml 
 
-class MapGUI {  
-
-  
-
-  
-
-  
-
-renderPlayerMap() 
-
-renderOponentMap() 
-
-renderMonster()  
-
-renderSpell()  
-
-renderTower() 
-
-}  
-
-  
-
-   
-
-  
-
-class GamePlayManager {  
-
-  
-
-mapGUI: MapGUI  
-
-creatureListA: Creature []  
-
-creatureListB: Creature []  
-
-towerListA: Tower []  
-
-towerListB: Tower []  
-
-   
-
-   
-
-generateMap()  
-
-addMapData() 
-
-spawnMonster()  
-
-addAndCheckSpell()  
-
-updateMonster()  
-
-updateTower()  
-
-onPlaceCard()  
-
-checkSpellEffect()  
-
+class MapGUI { 
+renderPlayerMap()
+renderOponentMap()
+renderMonster() 
+renderSpell() 
+renderTower()
 } 
 
+class PlayGUI { 
+renderDeck()
+}
   
 
-MapGUI - GamePlayManager: have 
+class GamePlayManager { 
 
+mapGUI: MapGUI 
+playGUI: PlayGUI
+creatureListA: Creature [] 
+creatureListB: Creature [] 
+towerListA: Tower [] 
+towerListB: Tower [] 
+cardDeck: BattleCardList
   
+generateMap() 
+addMapData()
+spawnMonster() 
+addAndCheckSpell()
+addOnPlaceCardEvent()
+updateMonster() 
+updateTower() 
+onPlaceCard() 
+checkSpellEffect() 
+} 
 
-  
+GamePlayManager -- MapGUI: have 
+GamePlayManager -- PlayGUI: have
+GamePlayManager -- BattleCardList: have
+GamePlayManager -- Tower: have
+GamePlayManager -- Creature: have
 
 class Lobby { 
-
 cardManager: CardManager 
-
 battleScreen: BattleScreen 
-
 shop: Shop 
-
 render() 
-
 } 
 
-  
 
 class BattleScreen { 
 
 chessBox: ChessBox 
 
+onGetUserInfo()
+onGetUserChestBoxInfo()
 render() 
-
+renderUserInfo()
+renderUserChestBoxInfo()
 onStartFindingMatch() 
-
+  
 } 
 
   
@@ -102,9 +69,10 @@ Lobby--BattleScreen: have
 
 Lobby--Shop: have 
 
-BattleScreen--ChessBox 
+BattleScreen--ChessBox: have
 
 Lobby- FindMatchView 
+
 
   
 
