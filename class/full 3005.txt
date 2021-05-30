@@ -323,27 +323,11 @@ class CreatureAttribute{
 
 class MonsterAttribute{ 
 
-    type: int    
+    consumingEnergy: int  
 
-    maxHp: int  
+    baseAmount: int 
 
-    speed: float  
-
-    gainingEnergy: int   
-
-    damage: int  
-
-    size: float  
-
-    weight: int  
-
-    summoner: int  
-
-    consumingEnergy: int   
-
-    baseAmount: int  
-
-    damage: int  
+    damage: 1 
 
 } 
 
@@ -804,12 +788,6 @@ GetBuff()
 class Monster{ 
 
 summoner: int 
-
-consumingEnergy: int  
-
-baseAmount: int 
-
-damage: 1 
 
 dodgeRate: float 
 
