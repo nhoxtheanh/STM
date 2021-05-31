@@ -1,97 +1,65 @@
 @startuml 
 
-class MapGUI {  
-
-  
-
-  
-
-  
-
-renderPlayerMap() 
-
-renderOponentMap() 
-
-renderMonster()  
-
-renderSpell()  
-
-renderTower() 
-
-}  
-
-  
-
-   
-
-  
-
-class GamePlayManager {  
-
-  
-
-mapGUI: MapGUI  
-
-creatureListA: Creature []  
-
-creatureListB: Creature []  
-
-towerListA: Tower []  
-
-towerListB: Tower []  
-
-   
-
-   
-
-generateMap()  
-
-addMapData() 
-
-spawnMonster()  
-
-addAndCheckSpell()  
-
-updateMonster()  
-
-updateTower()  
-
-onPlaceCard()  
-
-checkSpellEffect()  
-
+class MapGUI { 
+renderPlayerMap()
+renderOponentMap()
+renderMonster() 
+renderSpell() 
+renderTower()
 } 
 
+class PlayGUI { 
+renderDeck()
+}
   
 
-MapGUI - GamePlayManager: have 
+class GamePlayManager { 
 
+mapGUI: MapGUI 
+playGUI: PlayGUI
+creatureListA: Creature [] 
+creatureListB: Creature [] 
+towerListA: Tower [] 
+towerListB: Tower [] 
+cardDeck: BattleCardList
   
+generateMap() 
+addMapData()
+spawnMonster() 
+addAndCheckSpell()
+addOnPlaceCardEvent()
+updateMonster() 
+updateTower() 
+onPlaceCard() 
+checkSpellEffect() 
+} 
 
+GamePlayManager -- MapGUI: have 
+GamePlayManager -- PlayGUI: have
+GamePlayManager -- BattleCardList: have
+GamePlayManager -- Tower: have
+GamePlayManager -- Creature: have
   
 
 class Lobby { 
-
 cardManager: CardManager 
-
 battleScreen: BattleScreen 
-
 shop: Shop 
-
 render() 
-
 } 
 
-  
 
 class BattleScreen { 
 
 chessBox: ChessBox 
 
+onGetUserInfo()
+onGetUserChestBoxInfo()
 render() 
-
+renderUserInfo()
+renderUserChestBoxInfo()
 onStartFindingMatch() 
-
+  
 } 
 
   
@@ -102,18 +70,14 @@ Lobby--BattleScreen: have
 
 Lobby--Shop: have 
 
-BattleScreen--ChessBox 
+BattleScreen--ChessBox: have
 
 Lobby- FindMatchView 
 
   
-
 class Spell { 
 
-target: [] 
-
-energy: int 
-
+time: int
 attribute: SpellAttribute
 
 {static} create() 
@@ -130,8 +94,6 @@ effectTarget()
 
 class FireBall { 
 
-type: 1 
-
 render() 
 
 effectTarget() 
@@ -141,8 +103,6 @@ effectTarget()
   
 
 class Heal { 
-
-type: 2 
 
 render() 
 
@@ -154,8 +114,6 @@ effectTarget()
 
 class Strength { 
 
-type: 3 
-
 render() 
 
 effectTarget() 
@@ -166,8 +124,6 @@ effectTarget()
 
 class SpeedUp { 
 
-type: 4 
-
 render() 
 
 effectTarget() 
@@ -177,8 +133,6 @@ effectTarget()
   
 
 class Frozen { 
-
-type: 5 
 
 render() 
 
@@ -239,8 +193,10 @@ SpeedUp -- EffectZone
 Frozen -- EffectZone
 Strength -- EffectZone
 FireBall -- EffectZone
- 
 
+Spell - SpellAttribute: have 
+
+ 
 GamePlayManager--Creature 
 
 GamePlayManager--Tower 
