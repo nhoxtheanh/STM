@@ -207,25 +207,17 @@ GamePlayManager--Spell
 
  
 
-class PlayerInfo{ 
-
-    id: int 
-
-    name: string 
-
-    Ava: img 
-
-    credit: int 
-
-    gold: Gold 
-
-    g: G 
-
-    == 
-
-    void update() 
-
-} 
+class PlayerInfo{
+    id: int
+    name: string
+    Ava: img
+    credit: int
+    gold: Gold
+    g: G
+    ==
+    void getter()
+    void setter()
+}
 
   
 
@@ -319,144 +311,86 @@ class MinionAttribute {
 } 
   
 
-class Card{ 
-
-    name: string 
-
-    id: int 
-
-    requiredEnergy: int 
-
-    level: int 
-
-    avt: string 
-
-    attribute: Attribute 
-
-    size: int 
-
-    evolutionaryLv: int 
-
-    description: string 
-
-    == 
-
-    void showGUI() 
-
-    void closeGUI() 
-
-    void levelUp() 
-
-    int checklevelUp() 
-
-    void showEvolution() 
-
-    void showInfo() 
-
-    void closeInfo() 
-
-} 
+class Card{
+    name: string
+    id: int
+    requiredEnergy: int
+    level: int
+    avt: string
+    attribute: Attribute
+    size: int
+    evolutionaryLv: int
+    description: string
+    ==
+    void showGUI()
+    void closeGUI()
+    void levelUp()
+    int checklevelUp()
+    void showEvolution()
+    void showInfo()
+    void closeInfo()
+}
 
   
 
-class TowerCard{ 
-
-    ability: Ability 
-
-    == 
-
-    void showAbility() 
-
-    bool checkAbility() 
-
-} 
+class TowerCard{
+    ability: Ability
+    ==
+    void showAbility()
+    bool checkAbility()
+}
 
   
 
-class MonsterCard{ 
+class MonsterCard{
+
+}
+
+class SpellCard{
+
+}
 
   
 
-} 
+class Ability{
+    icon: string
+    ==
+    void showGUI()
+    void closeGUI()
+}
+
+class CardList{
+    cards: Card[]
+    name: string
+    ==
+    void sort(int)
+    Card getCard()
+    void removeCard()
+    void insertCard(int)
+    int size()
+    void showGUI()
+    void closeGUI()
+}
 
   
 
-class SpellCard{ 
+class BattleCardList{
+    cards: Card[8]
+}
 
   
 
-} 
-
-  
-
-class Ability{ 
-
-    icon: string 
-
-    == 
-
-    void showGUI() 
-
-    void closeGUI() 
-
-} 
-
-  
-
-class CardList{ 
-
-    cards: Card[] 
-
-    name: string 
-
-    == 
-
-    void sort(int) 
-
-    Card getCard() 
-
-    void removeCard() 
-
-    void insertCard(int) 
-
-    int size() 
-
-    void showGUI() 
-
-    void closeGUI() 
-
-} 
-
-  
-
-class BattleCardList{ 
-
-    cards: Card[8] 
-
-} 
-
-  
-
-class Inventory{ 
-
-    battlecards: BattleCardList 
-
-    savecards: CardList 
-
-    == 
-
-    void showGUI() 
-
-    void closeGUI() 
-
-    void levelup() 
-
-    void checklvup() 
-
-    void selectaCard(int id) 
-
-    void swapCard(int id, int id) 
-
+class Inventory{
+    battlecards: BattleCardList
+    savecards: CardList
+    ==
+    void showGUI()
+    void closeGUI()
+    void levelup()
+    void checklvup()
+    void selectaCard(int id)
+    void startswapcard()
+    void swapCard(int id, int id)
 } 
 
   
@@ -474,27 +408,17 @@ CreatureAttribute <|-- MinionAttribute
 CreatureAttribute <|--  BossAttribute 
   
 
-Card "1" -- "1" Attribute 
+Card "1" -- "1" Attribute
+Card <|-- SpellCard 
+Card <|-- MonsterCard
+Card <|-- TowerCard
 
-Card <|-- SpellCard  
+CardList <|-- BattleCardList
 
-Card <|-- MonsterCard 
+CardList "1" -- "1.." Card
+Inventory "1" -- "1.." CardList
 
-Card <|-- TowerCard 
-
-  
-
-CardList <|-- BattleCardList 
-
-  
-
-CardList "1" -- "1.." Card 
-
-Inventory "1" -- "1.." CardList 
-
-  
-
-TowerCard "1" -- "1" Ability 
+TowerCard "1" -- "1" Ability
 
   
 
@@ -502,201 +426,120 @@ TowerCard "1" -- "1" Ability
 
   
 
-class Chest{ 
+class Chest{
+    name: string
+    icon: string
+    state: int
+    time: time
+    minGold: Gold
+    maxGold: Gold
+    openPrice: Currency
+    cards: Card[]
+    cardtype: int[]
+    ==
+    void open()
+    void showGUI()
+    void closeGUI()
+    void showInfo()
+    void closeInfo()
+    void checkG()
+    void unlock()
+    void unlocknow()
+    void showReceive(Currency, Card[])
+    void closeReceive()
+    void showCountdown()
+}
 
-    name: string 
+  
 
-    icon: string 
+class ChestBox{
+    chests: Chest[4]
+    ==
+    void openChest(int)
+    int checkFull()
+    bool addChest(mingold, maxgold, cards[])
+    void showFullDialog()
+    void closeFullDialog()
+    void removeChest(chestPos)
+}
 
-    state: int 
+  
 
-    time: time 
+ChestBox "1" -- "4" Chest
 
-    minGold: Gold 
+  
 
-    maxGold: Gold 
+class Currency{
+    amount: int
+    icon: string
+    ==
+    int add(Currency)
+    int minus(Currency)
+}
 
-    openPrice: Currency 
+class Gold{}
 
-    cards: Card[] 
+class G{}
 
-    cardtype: int[] 
-
-    == 
-
-    void open() 
-
-    void showGUI() 
-
+class ShopItem{
+    objects: Object
+    price: Currency
+    ==
+    void setter()
+    void getter()
+    void showInfo()
+    void closeInfo()
+    bool checkBuy()
+    Object buy()
+    void showGUI()
     void closeGUI() 
-
-    void showInfo() 
-
-    void closeInfo() 
-
-    void unlock() 
-
-    void showReceive(Currency, Card[]) 
-
-    void closeReceive() 
-
-    void updateTime() 
-
-} 
+    void showReceive()
+    void closeReceive()
+}
 
   
 
-class ChestBox{ 
+class OnceShopItem{
+    state: bool
+}
 
-    chests: Chest[4] 
 
-    == 
+class ShopItemList{
+    items: ShopItem[]
+    name: string
+    ==
+    void ShowGUI()
+    void closeGUI()
+}
 
-    void openChest(int) 
+class TimedShopItemList{
+    renewTime: time
+    ==
+    void renew()
+}
 
-    int checkFull() 
-
-    bool addChest(mingold, maxgold, cards[]) 
-
-    void showFullDialog() 
-
-    void closeFullDialog() 
-
-} 
-
-  
-
-ChestBox "1" -- "4" Chest 
-
-  
-
-class Currency{ 
-
-    amount: int 
-
-    icon: string 
-
-    == 
-
-    int add(Currency) 
-
-    int minus(Currency) 
-
-} 
+class Shop{
+    list: ShopItemList[]
+    ==
+    void showGUI()
+    void closeGUI()
+}
 
   
 
-class Gold{} 
+Currency <|-- Gold
+Currency <|-- G
 
-  
+ShopItem <|-- OnceShopItem
 
-class G{} 
+ShopItem "1" -- "1" Currency
 
-  
+ShopItemList <|-- TimedShopItemList
 
-class ShopItem{ 
+ShopItem "1.." -- "1" ShopItemList
 
-    objects: Object 
+Shop "1" -- "1.." ShopItemList
 
-    price: Currency 
-
-    == 
-
-    void showInfo() 
-
-    void closeInfo() 
-
-    bool checkBuy() 
-
-    Object buy() 
-
-    void showGUI() 
-
-    void closeGUI()  
-
-    void showReceive() 
-
-    void closeReceive() 
-
-} 
-
-  
-
-class OnceShopItem{ 
-
-    state: bool 
-
-} 
-
-  
-
-  
-
-class ShopItemList{ 
-
-    items: ShopItem[] 
-
-    name: string 
-
-    == 
-
-    void ShowGUI() 
-
-    void closeGUI() 
-
-} 
-
-  
-
-class TimedShopItemList{ 
-
-    renewTime: time 
-
-    == 
-
-    void renew() 
-
-} 
-
-  
-
-class Shop{ 
-
-    list: ShopItemList[] 
-
-    == 
-
-    void showGUI() 
-
-    void closeGUI() 
-
-} 
-
-  
-
-Currency <|-- Gold 
-
-Currency <|-- G 
-
-  
-
-ShopItem <|-- OnceShopItem 
-
-  
-
-ShopItem "1" -- "1" Currency 
-
-  
-
-ShopItemList <|-- TimedShopItemList 
-
-  
-
-ShopItem "1.." -- "1" ShopItemList 
-
-  
-
-Shop "1" -- "1.." ShopItemList 
 
   
 
@@ -706,15 +549,11 @@ Shop "1" -- "1.." ShopItemList
 
   
 
-class Login{ 
-
-    id: string 
-
-    == 
-
-    void callLogin() 
-
-} 
+class Login{
+    id: string
+    ==
+    void callLogin()
+}
 
  
 
