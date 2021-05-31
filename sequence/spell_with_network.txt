@@ -23,34 +23,30 @@ GamePlayManager->MapGUI: renderSpell()
 
 end 
 
+Spell->GamePlayManager: EffectZone
 
-loop while still exist
+loop while EffectZone exist
 
-Spell->GamePlayManager: checkEffectedEntity()
-GamePlayManager->Spell: targetList
+GamePlayManager->GamePlayManager: getListTargetInEffectRange()
 
 loop for target in targetList
 
-Spell->Spell: checkTarget()
 
-alt checkTarget true
 
 alt  target is Creature 
 
-Spell->Creature: effectTarget()
+GamePlayManager->Creature:  getEffect(effect)
 
 end 
 
 alt target is Tower
 
-Spell->Tower: effectTarget()
+GamePlayManager->Tower:  getEffect(effect)
 
 end
 
-Spell->GamePlayManager: addEffect()
 GamePlayManager->MapGUI: renderEffect()
 
-end
 end
 
 end

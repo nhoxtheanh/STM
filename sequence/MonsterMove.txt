@@ -2,28 +2,33 @@
 title MonsterMove
 
 loop while not end game
+alt map is not changed
 GamePlayManager->Monster: moveOn()
-Monster->GamePlayManager: getObstacleMap()
-Monster<-GamePlayManager: obstacleMap[]
+else map changed
+GamePlayManager->Monster: moveOn(obstacleMap[])
 Monster->Monster: findPath(currPos, obstacleMap)
+end
 loop while not reach nextPos
   Monster<-Monster: moveTo(nextPos)
   GamePlayManager<-Monster: newMonsterPosition
   GamePlayManager->GamePlayManager: updateMonsterPosition(Monster, Point)
   GamePlayManager->MapGUI: displayMonsterPosition()
-  GamePlayManager<-Monster: checkCollision(currPos, size, weight, speed)
+  GamePlayManager<-GamePlayManager: checkCollision()
   expandable- if collide
   	GamePlayManager->Monster: nextPosAfterCollide
       Monster<-Monster: collide(nextPos)
   end
+  GamePlayManager<-GamePlayManager: checkInRangeOfEffect()
   expandable- in range of Effect
   	  GamePlayManager->Monster: effect
       Monster<-Monster: getEffect(effect)
   end
+  GamePlayManager<-GamePlayManager: checkInRangeOfBuff()
   expandable- in range of Buff
       GamePlayManager->Monster: buff
       Monster<-Monster: getBuff(buff)
   end
+  GamePlayManager<-GamePlayManager: checkInRangeOfDamage()
   expandable- in range of Damage
       GamePlayManager->Monster: damage
       Monster<-Monster: getHit(damage)
