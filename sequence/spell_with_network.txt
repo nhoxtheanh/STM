@@ -1,0 +1,56 @@
+title Spell
+actor Player
+
+Player->PlayGUI: placeCard()
+
+PlayGUI->GamePlayManager: onPlaceCard()
+
+GamePlayManager->Spell: create()
+
+Spell->GamePlayManager: addAndCheckSpell()
+GamePlayManager->MapGUI: renderSpell()
+
+GamePlayManager->Network: onSendSpell()
+
+
+group Oponent side
+
+Network->Network: onReceivedPacket
+Network->GamePlayManager: onAddSpell()
+GamePlayManager->Spell: create()
+Spell->GamePlayManager: addAndCheckSpell()
+GamePlayManager->MapGUI: renderSpell()
+
+end 
+
+
+loop while still exist
+
+Spell->GamePlayManager: checkEffectedEntity()
+GamePlayManager->Spell: targetList
+
+loop for target in targetList
+
+Spell->Spell: checkTarget()
+
+alt checkTarget true
+
+alt  target is Creature 
+
+Spell->Creature: effectTarget()
+
+end 
+
+alt target is Tower
+
+Spell->Tower: effectTarget()
+
+end
+
+Spell->GamePlayManager: addEffect()
+GamePlayManager->MapGUI: renderEffect()
+
+end
+end
+
+end

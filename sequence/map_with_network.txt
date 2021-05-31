@@ -1,0 +1,12 @@
+title MapGUI
+
+MapGUI->GamePlayManager: create()
+GamePlayManager->GamePlayManager: generateMap()
+GamePlayManager->MapGUI: addMapData()
+MapGUI->MapGUI: renderPlayerMap()
+GamePlayManager->Network: sendMapInfo()
+
+Network->Network: onReceivedPacket()
+Network->GamePlayManager: onGetMapInfo()
+GamePlayManager->MapGUI: addMapData()
+MapGUI->MapGUI: renderOponentMap()

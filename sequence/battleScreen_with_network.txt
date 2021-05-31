@@ -1,0 +1,15 @@
+title BattleScreen
+actor Player
+
+Player->BattleScreen: onEnter()
+BattleScreen->Network: sendGetUserInfo()
+Network->Network: onReceivedPacket()
+Network->BattleScreen: onGetUserInfo()
+
+BattleScreen->Network: sendGetUserChestBoxInfo()
+Network->Network: onReceivedPacket()
+Network->BattleScreen: onGetUserChestBoxInfo()
+
+BattleScreen->BattleScreen: render()
+BattleScreen->BattleScreen: renderUserInfo()
+BattleScreen->BattleScreen: renderChessBoxInfo()
