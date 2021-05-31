@@ -218,54 +218,97 @@ class PlayerInfo{
     void setter()
 }
 
-class Attribute{
-}
+  
 
-class TowerAttribute{
-    type: int
-    damage: int
-    speed: int
-    distance: int
-    shotType: int
-    target: int
-    buildingTime: timespan
-}
+class Attribute{ 
 
+} 
 
-class SpellAttribute {
-    type: int
-    effectNumber: float 
-    effectTime: int 
-    existTime: int 
-    damageIncrease: float 
-    speedIncrease: float 
-    startTime: int 
-}
+  
 
-class MonsterAttribute{
-    type: int   
-    maxHp: int 
-    speed: float 
-    gainingEnergy: int  
-    damage: int 
-    size: float 
-    weight: int 
-    summoner: int 
-    consumingEnergy: int  
-    baseAmount: int 
-    damage: int
-    dodgeRate: float 
-}
+class TowerAttribute{ 
 
-class BossAttribute { 
+    name: string 
+
     type: int 
-    maxHp: int 
-    speed: float 
+
+    impactIndex: float 
+
+    distance: float 
+
+    buildingTime: timespan 
+
+} 
+
+  
+
+  
+
+class SpellAttribute { 
+
+    type: int 
+
+    effectType: int
+
+    impactIndex: float  
+
+    effectRange: float 
+
+    effectTime: float  
+
+    existTime: float  
+
+    damageIncrease: float  
+
+    speedIncrease: float  
+
+    triggerTime: float  
+
+} 
+
+class CreatureAttribute{ 
+    name: string 
+
+    type: int    
+
+    maxHp: int  
+
+    baseSpeed: float  
+
     gainingEnergy: int  
+
     damage: int 
+
     size: float 
+
     weight: int 
-}
+
+} 
+
+class MonsterAttribute{ 
+
+    consumingEnergy: int  
+
+    baseAmount: int 
+
+    damage: 1 
+
+} 
+
+  
+
+class BossAttribute {  
+
+    damage: 5  
+
+} 
+
+class MinionAttribute {  
+
+    damage: 1  
+
+} 
+  
 
 class Card{
     name: string
@@ -287,12 +330,16 @@ class Card{
     void closeInfo()
 }
 
+  
+
 class TowerCard{
     ability: Ability
     ==
     void showAbility()
     bool checkAbility()
 }
+
+  
 
 class MonsterCard{
 
@@ -301,6 +348,8 @@ class MonsterCard{
 class SpellCard{
 
 }
+
+  
 
 class Ability{
     icon: string
@@ -322,9 +371,13 @@ class CardList{
     void closeGUI()
 }
 
+  
+
 class BattleCardList{
     cards: Card[8]
 }
+
+  
 
 class Inventory{
     battlecards: BattleCardList
@@ -337,12 +390,22 @@ class Inventory{
     void selectaCard(int id)
     void startswapcard()
     void swapCard(int id, int id)
-}
+} 
 
-Attribute <|-- TowerAttribute
-Attribute  <|-- MonsterAttribute
-Attribute  <|--  SpellAttribute
-Attribute  <|--  BossAttribute
+  
+
+Attribute <|-- TowerAttribute 
+
+Attribute  <|--  SpellAttribute 
+
+Attribute  <|-- CreatureAttribute 
+
+CreatureAttribute <|-- MonsterAttribute 
+
+CreatureAttribute <|-- MinionAttribute 
+
+CreatureAttribute <|--  BossAttribute 
+  
 
 Card "1" -- "1" Attribute
 Card <|-- SpellCard 
@@ -356,7 +419,11 @@ Inventory "1" -- "1.." CardList
 
 TowerCard "1" -- "1" Ability
 
+  
 
+  
+
+  
 
 class Chest{
     name: string
@@ -382,6 +449,8 @@ class Chest{
     void showCountdown()
 }
 
+  
+
 class ChestBox{
     chests: Chest[4]
     ==
@@ -393,7 +462,11 @@ class ChestBox{
     void removeChest(chestPos)
 }
 
+  
+
 ChestBox "1" -- "4" Chest
+
+  
 
 class Currency{
     amount: int
@@ -423,6 +496,8 @@ class ShopItem{
     void closeReceive()
 }
 
+  
+
 class OnceShopItem{
     state: bool
 }
@@ -448,6 +523,8 @@ class Shop{
     void showGUI()
     void closeGUI()
 }
+
+  
 
 Currency <|-- Gold
 Currency <|-- G
