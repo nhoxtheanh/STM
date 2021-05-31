@@ -164,13 +164,13 @@ damageIncrease: float
 
 speedIncrease: float
 
-FindTargetTower() 
+' FindTargetTower() 
 
-FindTargetMonsters() 
+' FindTargetMonsters() 
 
-BuffEffectTower() 
+' BuffEffectTower() 
 
-DoEffectMonster() 
+' DoEffectMonster() 
 
 } 
 
@@ -1238,11 +1238,9 @@ effectType: int
 
 Shoot() 
 
-DoDamageAndEffect() 
-
 Destroy() 
 
-FindTarget() 
+moveToTarget() 
 
 } 
 
@@ -1256,13 +1254,13 @@ damageType: int
 
 effectType: int 
 
-BuffEffectTower() 
+' BuffEffectTower() 
 
-FindTargetTower() 
+' FindTargetTower() 
 
-FindTargetMonsters() 
+' FindTargetMonsters() 
 
-DoEffectMonster() 
+' DoEffectMonster() 
 
 } 
 

@@ -1,18 +1,21 @@
-title TowerTriger
+title TowerTrigger
 
 alt attack/magic tower
 
 loop while not end game
 
-Tower->GamePlayManager: checkCreaturesInActiveZone()
+GamePlayManager->GamePlayManager: checkCreaturesInActiveZone()
 alt no Creature found
-GamePlayManager->Tower: noCreatureInTowerActiveZone
 else Creatures found
 GamePlayManager->Tower: listCreaturesInTowerActiveZone
 Tower->Tower: DetermineTarget()
-Tower->GamePlayManager: AttackTarget()
-GamePlayManager->Creature: GetHit()
-GamePlayManager->MapGUI: DisplayHitEffect()
+Tower->Bullet: AttackTarget(id quái/tọa độ)
+Bullet->Bullet: moveToTarget()
+Bullet->GamePlayManager: bulletEffectZone / bulletPosition, damage / effect
+GamePlayManager->GamePlayManager: getListTargetInBulletEffectRange()
+loop for target in targetList
+  GamePlayManager->Creature: GetHit()
+  GamePlayManager->MapGUI: DisplayHitEffect()
 expandable- creature killed
 GamePlayManager<-Creature: GetKilled()
 GamePlayManager->GamePlayManager: RemoveCreature()
@@ -23,30 +26,32 @@ GamePlayManager<-Creature: respondEffect
 Tower<-GamePlayManager: GetEffect()
 end
 end
+
+end
 end
 
 
 else support tower
 
 loop while not end game
-Tower->GamePlayManager: checkTowersInActiveZone()
+GamePlayManager->GamePlayManager: checkTowersInBuffEffectZone()
 alt no Tower found
-GamePlayManager->Tower: noTowerInTowerActiveZone
 else Towes found
-GamePlayManager->Tower: listTowersInTowerActiveZone
-Tower->GamePlayManager: BuffEffectTower()
+GamePlayManager->GamePlayManager: listTowersInBuffEffectZone
+loop for each Tower in BuffEffectZone
 GamePlayManager->TargetTower: GetBuff()
 GamePlayManager->MapGUI: displayBuff()
 end
+end
 
-Tower->GamePlayManager: checkCreaturesInActiveZone()
+GamePlayManager->GamePlayManager: checkCreaturesInBuffEffectZone()
 alt no Creature found
-GamePlayManager->Tower: noCreatureInTowerActiveZone
 else Creatures found
-GamePlayManager->Tower: listCreaturesInTowerActiveZone
-Tower->GamePlayManager: DoEffectMonster()
+GamePlayManager->GamePlayManager: listCreaturesInEffectZone
+loop for each Creature in EffectZone
 GamePlayManager->Creature: GetEffect()
 GamePlayManager->MapGUI: displayEffect()
+end
 end
 
 end
