@@ -1,0 +1,39 @@
+class MapGUI { 
+renderPlayerMap()
+renderOponentMap()
+renderMonster() 
+renderSpell() 
+renderTower()
+} 
+
+class PlayGUI { 
+renderDeck()
+}
+  
+
+class GamePlayManager { 
+
+mapGUI: MapGUI 
+playGUI: PlayGUI
+creatureListA: Creature [] 
+creatureListB: Creature [] 
+towerListA: Tower [] 
+towerListB: Tower [] 
+cardDeck: BattleCardList
+  
+generateMap() 
+addMapData()
+spawnMonster() 
+addAndCheckSpell()
+addOnPlaceCardEvent()
+updateMonster() 
+updateTower() 
+onPlaceCard() 
+checkSpellEffect() 
+} 
+
+GamePlayManager -- MapGUI: have 
+GamePlayManager -- PlayGUI: have
+GamePlayManager -- BattleCardList: have
+GamePlayManager -- Tower: have
+GamePlayManager -- Creature: have

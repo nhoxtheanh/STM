@@ -1,0 +1,35 @@
+@startuml
+
+class Lobby { 
+cardManager: CardManager 
+battleScreen: BattleScreen 
+shop: Shop 
+render() 
+} 
+
+
+class BattleScreen { 
+
+chessBox: ChessBox 
+
+onGetUserInfo()
+onGetUserChestBoxInfo()
+render() 
+renderUserInfo()
+renderUserChestBoxInfo()
+onStartFindingMatch() 
+  
+} 
+
+  
+
+Lobby--CardManager: have 
+
+Lobby--BattleScreen: have 
+
+Lobby--Shop: have 
+
+BattleScreen--ChessBox: have
+
+Lobby- FindMatchView 
+@enduml

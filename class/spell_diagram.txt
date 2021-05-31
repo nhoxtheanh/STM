@@ -1,0 +1,125 @@
+@startuml
+
+class Spell { 
+
+time: int
+attribute: SpellAttribute
+
+{static} create() 
+
+render() 
+
+checkTarget() 
+
+effectTarget() 
+
+} 
+
+  
+
+class FireBall { 
+
+render() 
+
+effectTarget() 
+
+} 
+
+  
+
+class Heal { 
+
+render() 
+
+effectTarget() 
+
+} 
+
+  
+
+class Strength { 
+
+render() 
+
+effectTarget() 
+
+} 
+
+  
+
+class SpeedUp { 
+
+render() 
+
+effectTarget() 
+
+} 
+
+  
+
+class Frozen { 
+
+render() 
+
+effectTarget() 
+
+} 
+
+  
+
+class Trap { 
+
+type: 6 
+
+render() 
+
+effectTarget() 
+
+} 
+
+class EffectZone { 
+
+effectType: int
+
+effectValue: float  
+
+effectTime: float  
+
+existTime: float  
+
+damageIncrease: float  
+
+speedIncrease: float
+
+FindTargetTower() 
+
+FindTargetMonsters() 
+
+BuffEffectTower() 
+
+DoEffectMonster() 
+
+} 
+
+Spell<|--Heal 
+
+Spell<|--SpeedUp 
+
+Spell<|--Frozen 
+
+Spell<|--Trap 
+
+Spell<|--Strength 
+
+Spell<|--FireBall 
+
+Heal -- EffectZone
+SpeedUp -- EffectZone
+Frozen -- EffectZone
+Strength -- EffectZone
+FireBall -- EffectZone
+
+Spell - GamePlayManager
+Spell - SpellAttribute: have 
+ 
+@enduml
