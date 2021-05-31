@@ -1,7 +1,7 @@
 @startuml
 
 class Lobby { 
-cardManager: CardManager 
+cardManager: Inventory
 battleScreen: BattleScreen 
 shop: Shop 
 render() 
