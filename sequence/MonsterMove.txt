@@ -2,7 +2,7 @@
 title MonsterMove
 
 loop while not end game
-GamePlayManager->Monster: move()
+GamePlayManager->Monster: moveOn()
 Monster->GamePlayManager: getObstacleMap()
 Monster<-GamePlayManager: obstacleMap[]
 Monster->Monster: findPath(currPos, obstacleMap)

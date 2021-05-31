@@ -574,7 +574,9 @@ speed: float
 
 AttackBase() 
 
-MoveOnPath() 
+moveOn() 
+
+moveTo() 
 
 GetHit() 
 
@@ -835,6 +837,8 @@ GetEffect()
 GetBuff() 
 
 Upgrade() 
+
+checkUpgradeCondition()
 
 } 
 
