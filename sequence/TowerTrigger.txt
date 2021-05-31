@@ -4,21 +4,18 @@ alt attack/magic tower
 
 loop while not end game
 
-Tower->Map: checkCreaturesInActiveZone()
+Tower->GamePlayManager: checkCreaturesInActiveZone()
 alt no Creature found
-Map->Tower: noCreatureInTowerActiveZone
+GamePlayManager->Tower: noCreatureInTowerActiveZone
 else Creatures found
-Map->Tower: listCreaturesInTowerActiveZone
-Tower->PlayGUI: AskPlayerForTargetDeterminingMethod()
-Tower<-PlayGUI: TargetDeterminingMethod()
-Tower->Tower: ChangeTargetDeterminingMethod()
+GamePlayManager->Tower: listCreaturesInTowerActiveZone
 Tower->Tower: DetermineTarget()
 Tower->GamePlayManager: AttackTarget()
 GamePlayManager->Creature: GetHit()
 GamePlayManager->MapGUI: DisplayHitEffect()
 expandable- creature killed
 GamePlayManager<-Creature: GetKilled()
-GamePlayManager->Map: RemoveCreature()
+GamePlayManager->GamePlayManager: RemoveCreature()
 GamePlayManager->MapGUI: RemoveCreature()
 end
 expandable- creature have respond effect when hit
@@ -32,21 +29,21 @@ end
 else support tower
 
 loop while not end game
-Tower->Map: checkTowersInActiveZone()
+Tower->GamePlayManager: checkTowersInActiveZone()
 alt no Tower found
-Map->Tower: noTowerInTowerActiveZone
+GamePlayManager->Tower: noTowerInTowerActiveZone
 else Towes found
-Map->Tower: listTowersInTowerActiveZone
+GamePlayManager->Tower: listTowersInTowerActiveZone
 Tower->GamePlayManager: BuffEffectTower()
 GamePlayManager->TargetTower: GetBuff()
 GamePlayManager->MapGUI: displayBuff()
 end
 
-Tower->Map: checkCreaturesInActiveZone()
+Tower->GamePlayManager: checkCreaturesInActiveZone()
 alt no Creature found
-Map->Tower: noCreatureInTowerActiveZone
+GamePlayManager->Tower: noCreatureInTowerActiveZone
 else Creatures found
-Map->Tower: listCreaturesInTowerActiveZone
+GamePlayManager->Tower: listCreaturesInTowerActiveZone
 Tower->GamePlayManager: DoEffectMonster()
 GamePlayManager->Creature: GetEffect()
 GamePlayManager->MapGUI: displayEffect()
