@@ -43,7 +43,7 @@ GamePlayManager -- Creature: have
 
 class Lobby { 
 cardManager: CardManager 
-battleScreen: BattleScreen 
+battleScreen: Inventory 
 shop: Shop 
 render() 
 } 
@@ -51,7 +51,7 @@ render()
 
 class BattleScreen { 
 
-chessBox: ChessBox 
+chessBox: ChestBox 
 
 onGetUserInfo()
 onGetUserChestBoxInfo()
@@ -64,13 +64,13 @@ onStartFindingMatch()
 
   
 
-Lobby--CardManager: have 
+Lobby--Inventory: have 
 
 Lobby--BattleScreen: have 
 
 Lobby--Shop: have 
 
-BattleScreen--ChessBox: have
+BattleScreen--ChestBox: have
 
 Lobby- FindMatchView 
 
@@ -144,8 +144,6 @@ effectTarget()
 
 class Trap { 
 
-type: 6 
-
 render() 
 
 effectTarget() 
@@ -196,7 +194,8 @@ FireBall -- EffectZone
 
 Spell - SpellAttribute: have 
 
- 
+LoginView - Lobby 
+
 GamePlayManager--Creature 
 
 GamePlayManager--Tower 
