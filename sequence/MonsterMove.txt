@@ -18,22 +18,7 @@ loop while not reach nextPos
   	GamePlayManager->Monster: nextPosAfterCollide
       Monster<-Monster: collide(nextPos)
   end
-  GamePlayManager<-GamePlayManager: checkInRangeOfEffect()
-  expandable- in range of Effect
-  	  GamePlayManager->Monster: effect
-      Monster<-Monster: getEffect(effect)
-  end
-  GamePlayManager<-GamePlayManager: checkInRangeOfBuff()
-  expandable- in range of Buff
-      GamePlayManager->Monster: buff
-      Monster<-Monster: getBuff(buff)
-  end
-  GamePlayManager<-GamePlayManager: checkInRangeOfDamage()
-  expandable- in range of Damage
-      GamePlayManager->Monster: damage
-      Monster<-Monster: getHit(damage)
-  end
-end
+  
 expandable- boss
 GamePlayManager<-Monster: MoveEffect()
 GamePlayManager->MapGUI: displayMoveEffect()
@@ -51,5 +36,21 @@ GamePlayManager->MapGUI: DisplayBuffEffect()
 end
 end
 
+end
+GamePlayManager<-GamePlayManager: checkInRangeOfEffect()
+  expandable- in range of Effect
+  	  GamePlayManager->Monster: effect
+      Monster<-Monster: getEffect(effect)
+  end
+  GamePlayManager<-GamePlayManager: checkInRangeOfBuff()
+  expandable- in range of Buff
+      GamePlayManager->Monster: buff
+      Monster<-Monster: getBuff(buff)
+  end
+  GamePlayManager<-GamePlayManager: checkInRangeOfDamage()
+  expandable- in range of Damage
+      GamePlayManager->Monster: damage
+      Monster<-Monster: getHit(damage)
+  end
 end
 end
