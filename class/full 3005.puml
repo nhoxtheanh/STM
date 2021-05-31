@@ -218,97 +218,54 @@ class PlayerInfo{
     void setter()
 }
 
-  
+class Attribute{
+}
 
-class Attribute{ 
+class TowerAttribute{
+    type: int
+    damage: int
+    speed: int
+    distance: int
+    shotType: int
+    target: int
+    buildingTime: timespan
+}
 
-} 
 
-  
+class SpellAttribute {
+    type: int
+    effectNumber: float 
+    effectTime: int 
+    existTime: int 
+    damageIncrease: float 
+    speedIncrease: float 
+    startTime: int 
+}
 
-class TowerAttribute{ 
-
-    name: string 
-
-    type: int 
-
-    impactIndex: float 
-
-    distance: float 
-
-    buildingTime: timespan 
-
-} 
-
-  
-
-  
-
-class SpellAttribute { 
-
-    type: int 
-
-    effectType: int
-
-    impactIndex: float  
-
-    effectRange: float 
-
-    effectTime: float  
-
-    existTime: float  
-
-    damageIncrease: float  
-
-    speedIncrease: float  
-
-    triggerTime: float  
-
-} 
-
-class CreatureAttribute{ 
-    name: string 
-
-    type: int    
-
-    maxHp: int  
-
-    baseSpeed: float  
-
+class MonsterAttribute{
+    type: int   
+    maxHp: int 
+    speed: float 
     gainingEnergy: int  
-
     damage: int 
-
     size: float 
-
     weight: int 
-
-} 
-
-class MonsterAttribute{ 
-
+    summoner: int 
     consumingEnergy: int  
-
     baseAmount: int 
+    damage: int
+    dodgeRate: float 
+}
 
-    damage: 1 
-
-} 
-
-  
-
-class BossAttribute {  
-
-    damage: 5  
-
-} 
-
-class MinionAttribute {  
-
-    damage: 1  
-
-} 
-  
+class BossAttribute { 
+    type: int 
+    maxHp: int 
+    speed: float 
+    gainingEnergy: int  
+    damage: int 
+    size: float 
+    weight: int 
+}
 
 class Card{
     name: string
@@ -330,16 +287,12 @@ class Card{
     void closeInfo()
 }
 
-  
-
 class TowerCard{
     ability: Ability
     ==
     void showAbility()
     bool checkAbility()
 }
-
-  
 
 class MonsterCard{
 
@@ -348,8 +301,6 @@ class MonsterCard{
 class SpellCard{
 
 }
-
-  
 
 class Ability{
     icon: string
@@ -371,13 +322,9 @@ class CardList{
     void closeGUI()
 }
 
-  
-
 class BattleCardList{
     cards: Card[8]
 }
-
-  
 
 class Inventory{
     battlecards: BattleCardList
@@ -390,22 +337,12 @@ class Inventory{
     void selectaCard(int id)
     void startswapcard()
     void swapCard(int id, int id)
-} 
+}
 
-  
-
-Attribute <|-- TowerAttribute 
-
-Attribute  <|--  SpellAttribute 
-
-Attribute  <|-- CreatureAttribute 
-
-CreatureAttribute <|-- MonsterAttribute 
-
-CreatureAttribute <|-- MinionAttribute 
-
-CreatureAttribute <|--  BossAttribute 
-  
+Attribute <|-- TowerAttribute
+Attribute  <|-- MonsterAttribute
+Attribute  <|--  SpellAttribute
+Attribute  <|--  BossAttribute
 
 Card "1" -- "1" Attribute
 Card <|-- SpellCard 
@@ -419,11 +356,7 @@ Inventory "1" -- "1.." CardList
 
 TowerCard "1" -- "1" Ability
 
-  
 
-  
-
-  
 
 class Chest{
     name: string
@@ -449,8 +382,6 @@ class Chest{
     void showCountdown()
 }
 
-  
-
 class ChestBox{
     chests: Chest[4]
     ==
@@ -462,11 +393,7 @@ class ChestBox{
     void removeChest(chestPos)
 }
 
-  
-
 ChestBox "1" -- "4" Chest
-
-  
 
 class Currency{
     amount: int
@@ -496,8 +423,6 @@ class ShopItem{
     void closeReceive()
 }
 
-  
-
 class OnceShopItem{
     state: bool
 }
@@ -524,8 +449,6 @@ class Shop{
     void closeGUI()
 }
 
-  
-
 Currency <|-- Gold
 Currency <|-- G
 
@@ -540,19 +463,241 @@ ShopItem "1.." -- "1" ShopItemList
 Shop "1" -- "1.." ShopItemList
 
 
-  
 
-  
-
-  
-
-  
 
 class Login{
     id: string
     ==
     void callLogin()
 }
+
+
+class sPlayerInfo{
+    id: int
+    pw: char[60]
+    name: char[15]
+    Ava: img
+    credit: int
+    login_time: time
+    logout_time: time
+    gold: Gold
+    g: G
+    ==
+    void getter()
+    void setter()
+}
+
+class sAttribute{
+    type: int
+}
+
+class sTowerAttribute{
+    type: int
+    damage: int
+    speed: int
+    distance: int
+    shotType: int
+    target: int
+    buildingTime: timespan
+}
+
+
+class sSpellAttribute {
+    type: int
+    effectNumber: float 
+    effectTime: int 
+    existTime: int 
+    damageIncrease: float 
+    speedIncrease: float 
+    startTime: int 
+}
+
+class sMonsterAttribute{
+    type: int   
+    maxHp: int 
+    speed: float 
+    gainingEnergy: int  
+    damage: int 
+    size: float 
+    weight: int 
+    summoner: int 
+    consumingEnergy: int  
+    baseAmount: int 
+    damage: int
+    dodgeRate: float 
+}
+
+class sBossAttribute { 
+    type: int 
+    maxHp: int 
+    speed: float 
+    gainingEnergy: int  
+    damage: int 
+    size: float 
+    weight: int 
+}
+
+class sAbility{
+    icon: string
+    type: int
+}
+
+class sCard{
+    name: string
+    id: int
+    requiredEnergy: int
+    level: int
+    avt: string
+    attribute: sAttribute
+    size: int
+    evolutionaryLv: int
+    description: string
+    ==
+    void levelUp()
+    bool checklvup()
+}
+
+class sCardList{
+    cards: Card[]
+    name: string
+    ==
+    void sort(int)
+    void removeCard()
+    void insertCard(int type)
+}
+
+class sBattleCardList{
+    cards: Card[8]
+}
+
+class sInventory{
+    battlecards: BattleCardList
+    savecards: CardList
+    ==
+    void swapCard(int id, int id);
+    void addCard(int id);
+    void levelupCard(int id);
+}
+
+sAttribute <|-- sTowerAttribute
+sAttribute <|-- sMonsterAttribute
+sAttribute <|-- sSpellAttribute
+sAbility <|-- sBossAttribute
+
+sCard <|-- sTowerCard
+sCard <|-- sMonsterCard
+sCard <|-- sSpellCard
+
+sCardList -- sCard
+sCardList <|-- sBattleCardList
+sInventory -- sCardList
+
+sCard -- sAttribute
+
+sTowerCard -- sAbility
+
+
+
+
+
+class sChestBox{
+    chests: Chest[4]
+    ==
+    void openChest(int)
+    int checkFull()
+    bool addChest(mingold, maxgold, cards[])
+    void removeChest(chestPos)
+}
+
+
+class sChest{
+    name: string
+    icon: string
+    state: int
+    time: time
+    minGold: Gold
+    maxGold: Gold
+    minCard: int
+    openPrice: Currency
+    cards: Card[]
+    cardtype: int[]
+    ==
+    pair<Gold, Card[]> open()
+    void unlock()
+    void unlocknow()
+    bool checkG()
+    void checkTime()
+}
+
+
+
+sChestBox "1" -- "4" sChest
+
+
+
+
+
+
+
+
+
+class sCurrency{
+    amount: int
+    icon: string
+    ==
+    int add(sCurrency)
+    int minus(sCurrency)
+}
+
+class sGold{}
+
+class sG{}
+
+class sShopItem{
+    objects: Object
+    price: sCurrency
+    ==
+    bool checkBuy()
+    void buy()
+}
+
+class sOnceShopItem{
+    state: bool
+}
+
+
+class sShopItemList{
+    items: ShopItem[]
+    name: string
+}
+
+class sTimedShopItemList{
+    renewTime: time
+    ==
+    void checkrenew()
+    void renew()
+}
+
+class sShop{
+    list: ShopItemList[]
+    ==
+    void checkrenewTime()
+}
+
+sCurrency <|-- sGold
+sCurrency <|-- sG
+
+sShopItem -- sCurrency
+
+sShopItem <|-- sOnceShopItem
+
+sShopItemList -- sShopItem
+
+sTimedShopItemList --|> sShopItemList
+
+sShop -- sShopItemList
+
+
 
  
 
@@ -1632,5 +1777,335 @@ BattleBotManager --|> BattleManager
 Bot -o BattleBotManager 
 
 } 
+
+
+
+
+package Client{
+    class GameClient{
+        _tcpClient: GsnClient
+        packetFactory: InPacketFactory
+        receivePacketSignal: Signals
+        ==
+        void ctor()
+        GsnClient getNetwork()
+        void connect()
+        void onFinishConnect()
+
+        void sendPacket(pk)
+        getInPacket(cmd, pk)
+        Packet getOutPacket(cmd)
+        void _onReceived(cmd, pkg)
+        void onReceivedPacket(cmd, packet)
+    }
+
+
+
+    class Packet{
+        {static} CMD.HAND_SHAKE: 0
+        {static} CMD.USER_LOGIN: 1
+        {static} CMD.USER_LOGOUT: 2
+        {static} CMD.USER_INFO: 3
+
+        {static} CMD.USER_INFO: 1001
+        {static} CMD.MOVE: 2001
+    }
+
+    class outPacket{
+        ==
+        void ctor()
+        void reset()
+        void putInt(int)
+        void putUnsignedShort(short)
+        void putShort(short)
+        void putString(str)
+        void putDouble(double)
+        void putBytes(char, int)
+        int getData()
+        void initData(int)
+        int getCmdId()
+        void setCmdId(int)
+        void pack()
+
+    }
+
+    class CmdSendHandshake{
+        ==
+    }
+
+    class CmdSendUserInfo{
+        ==
+    }
+
+    class CmdSendLogin{
+
+    }
+
+    class CmdSendLogout{
+        
+    }
+
+    class CmdSendUpgradeCard{
+        card: int
+    }
+
+    class CmdSendSwapCard{
+        card1: int
+        card2: int
+    }
+
+    class CmdSendOpenChest{
+        chestOrder: int
+    }
+
+    class CmdSendUnclockNowChest{
+        chestOrder: int
+    }
+
+    class CmdSendBuy{
+        itemId: int
+    }
+    
+    class CmdDoneRenewItem{
+        done: bool
+    }
+
+    class inPacket{
+        ==
+        void ctor()
+        void init()
+        int getCmdId()
+        char getByte()
+        long getLong()
+        Bool getBool()
+        int getInt()
+        string getString()
+        short getUnsignedShort()
+        short getShort()
+        string getCharArray(int)
+    }
+
+    class Network{
+        gameClient = gameClient()
+        packetMap = []
+        Packet[CMD.HAND_SHAKE]: inPacket
+        Packet[CMD.USER_LOGIN]: inPacket
+        Packet[CMD.USER_LOGOUT]: inPacket
+        Packet[CMD.USER_INFO]: inPacket
+
+        Packet[CMD.ADD_CARD]: inPacket
+        Packet[CMD.SWAP_CARD]: inPacket
+        Packet[CMD.UPGRADE_CARD]: inPacket
+
+        Packet[CMD.UPDATE_GOLD]: inPacket
+        Packet[CMD.UPDATE_G]: inPacket
+        
+        Packet[CMD.REMOVE_SHOPITEM]: inPacket
+        Packet[CMD.UPDATE_ITEM]: inPacket
+        Packet[CMD.ADD_ITEM]: inPacket
+
+        Packet[CMD.OPEN_CHEST]: inPacket
+        ==
+        void onReceivedPacket(cmd, pk)
+        void sendGetUserInfo()
+        void sendLogini_()
+        void sendLogouti_()
+        void SendUpgradeCard()
+        void SendSwapCard()
+        void SendOpenChest()
+        void SendUnclockNowChest()
+        void SendBuy()
+
+    }
+
+    Packet <|-- inPacket
+    Packet <|-- outPacket
+
+    outPacket <|-- CmdSendHandshake
+    outPacket <|-- CmdSendUserInfo
+    outPacket <|-- CmdSendLogin
+    outPacket <|-- CmdSendLogout
+    outPacket <|-- CmdSendUpgradeCard
+    outPacket <|-- CmdSendSwapCard
+    outPacket <|-- CmdSendOpenChest
+    outPacket <|-- CmdSendUnclockNowChest
+    outPacket <|-- CmdSendBuy
+
+
+    Network -- GameClient
+    Network -- Packet
+
+}
+
+package Server{
+
+    class BaseMsg{
+        id: int
+        error: int
+        ==
+        void ctor(type, error)
+        short getId()
+        ByteBuffer makeBuffer()
+        byte[] packBuffer()
+        void putStr(ByteBuffer, String)
+        void putLong(ByteBuffer, long)
+        void putIntArray(ByteBuffer, int[])
+        ...
+        void createData()
+        void unpackData()
+    }
+
+    class o_UserInfo{
+        playerinfo: PlayerInfo
+        ==
+        void ctor(sPlayerInfo)
+        void createData()
+    }
+
+    class o_AddCard{
+        cardId: int
+        amount: int
+    }
+
+    class o_SwapCard{
+        card1: int
+        card2: int
+    }
+
+    class o_UpgradeCard{
+        cardId: int
+    }
+
+    class o_UpdateGold{
+        Newamount: int
+    }
+
+    class o_UpdateG{
+        Newamount: int
+    }
+
+    class o_RemoveShopItem{
+        itemID: int
+    }
+
+    class o_UpdateShopItem{
+        itemType: int
+        cardIds: int[]
+        cardAmount: int[]
+        gold: int
+        price: int
+        pricetype: int
+    }
+
+    class o_AddShopItem{
+        listId: int
+        itemType: int
+        cardIds: int[]
+        cardAmount: int[]
+        gold: int
+        price: int
+        pricetype: int
+    }
+
+    class o_OpenChest{
+        chestId: int
+    }
+
+    class o_CountDownChest{
+        chestId: int
+    }
+
+
+    BaseMsg <|-- o_i_UserInfo
+    BaseMsg <|-- o_AddCard
+    BaseMsg <|-- o_SwapCard
+    BaseMsg <|-- o_UpgradeCard
+    BaseMsg <|-- o_UpdateG
+    BaseMsg <|-- o_UpdateGold
+    BaseMsg <|-- o_RemoveShopItem
+    BaseMsg <|-- o_UpdateShopItem
+    BaseMsg <|-- o_AddShopItem
+    BaseMsg <|-- o_OpenChest
+    BaseMsg <|-- o_CountDownChest 
+
+    
+
+    class BaseCmd{
+        id: int
+        ==
+        void ctor(byte[])
+        int getId()
+        string readString()
+        byte readByte()
+        ...
+    }
+
+    class i_Login{
+        session: string
+        userid: string
+    }
+
+    class i_UserInfo{
+        userId: int
+    }
+
+    class i_UpgradeCard{
+        cardId: int
+    }
+
+    class i_SwapCard{
+        card1: int
+        card2: int
+    }
+
+    class i_OpenChest{
+        chestPos: int
+    }
+
+    class i_UnlocknowChest{
+        chestPos: int
+    }
+
+    class i_Buy{
+        itemId: int
+    }
+
+    BaseCmd <|--  i_Login
+    BaseCmd <|-- i_UpgradeCard
+    BaseCmd <|-- i_SwapCard
+    BaseCmd <|-- i_OpenChest
+    BaseCmd <|-- i_UnlocknowChest
+    BaseCmd <|-- i_Buy
+
+
+
+
+    class UserInfo{
+        userid: String
+        username: String 
+        firstname: String 
+        gender: String 
+        ...
+        ===
+        void setter()
+        void getter()
+    }
+
+    class BZExtension{}
+
+    class Extension{
+        ==
+        void doLogin(short cmdId, ISession session, DataCmd objData)
+        UserInfo getUserInfo(String username, int userId, String ipAddress)
+    }
+
+    class Handler{
+
+    }
+
+    BZExtension <|-- Extension
+
+
+}
 
 @enduml 
