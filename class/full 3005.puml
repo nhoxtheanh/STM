@@ -1355,520 +1355,48 @@ IceGun – ActiveZone
 
  
 
- 
-
- 
-
-skinparam packageStyle rectangle 
-
-skinparam classAttributeIconSize 0 
-
-  
-
-package Client { 
-
-class LoginView { 
-
-+showView(): void 
-
-} 
-
-  
-
-class LoginAction { 
-
--username: string 
-
--password: string 
-
--status: string 
-
-+authenticate(): void 
-
-+initClient(): void 
-
-} 
-
-  
-
-LoginView "1" -- "1" LoginAction 
-
-  
-
-class Client { 
-
--token: string 
-
--user: User 
-
-+gameView(): void 
-
-} 
-
-  
-
-class ServerMessageManager { 
-
--connectionStatus: int 
-
--packageStatus: int 
-
--socket: Socket 
-
-+receiveMessage(): void 
-
-+sendMessage(): void 
-
-} 
-
-  
-
-class User { 
-
--avatar: Image 
-
--name: string 
-
--level: int 
-
--rank: int 
-
--currencys: array<Currency> 
-
-} 
-
-  
-
-Client o- User 
-
-LoginAction "1" -- "0..1" Client 
-
-LoginAction "1" - "1" ServerMessageManager 
-
-} 
-
-  
-
-package Server { 
-
-class Server { 
-
--authenticatorThread: Thread 
-
-+initAuthenticator(): void 
-
-} 
-
-  
-
-class AccountManager { 
-
-+authenticateUser(): string 
-
-} 
-
-  
-
-class ClientMessageManager { 
-
--userConnections: array<UserConnection> 
-
-+receiveMessage(): string 
-
-+sendMessage(): void 
-
-} 
-
-  
-
-class UserConnection { 
-
--socket: Socket 
-
--status: int 
-
-+initTCPConnection(): void 
-
-} 
-
-  
-
-Server o- ClientMessageManager 
-
-Server o-- AccountManager 
-
-ClientMessageManager "1" -- "0..*" UserConnection 
-
-} 
-
- 
-
- 
-
-skinparam packageStyle rectangle 
-
-skinparam classAttributeIconSize 0 
-
-  
-
-package Client { 
-
-  
-
-class Client { 
-
--token: string 
-
--user: User 
-
--battleListManager: BattleListManager 
-
--playerID: string 
-
-+lobbyView(): void 
-
-+battle(): void 
-
-} 
-
-  
-
-class ServerMessageManager { 
-
--connectionStatus: int 
-
--packageStatus: int 
-
--socket: Socket 
-
-+receiveMessage(): void 
-
-+sendMessage(): void 
-
-} 
-
-  
-
-class BattleListManager { 
-
--battleList: priorityQueuePool<UserID> 
-
--gamePlayManager: GamePlayManager 
-
--waitTime: Time 
-
--inputStream: istream 
-
--outputStream: ostream 
-
--playerBattleId: string 
-
--findMatchView: FindMatchView 
-
--rankConstraint: int 
-
-+joinBattle(UserID: string): void 
-
-+getBattleList(): void 
-
-+checkBattle(UserID: string): void 
-
-+leaveBattle(): void 
-
-+showBattle(): void 
-
-+listenerThread(): void 
-
-+senderThread(): void 
-
-+increaseRankConstraint(): void 
-
-} 
-
-  
-
-class GamePlayManager {} 
-
-  
-
-class FindMatchView { 
-
--duration: Time 
-
-+showView(): void 
-
-} 
-
-  
-
-class User { 
-
--avatar: Image 
-
--name: string 
-
--level: int 
-
--rank: int 
-
--currencys: array<Currency> 
-
-} 
-
-  
-
-Client o-- User 
-
-BattleListManager o-- GamePlayManager 
-
-BattleListManager *-- FindMatchView 
-
-BattleListManager "1" - "1" ServerMessageManager 
-
-Client o- BattleListManager 
-
-} 
-
-  
-
-package Server { 
-
-class Server { 
-
--channelThread: Thread 
-
--battleQueue: BattleQueueManager 
-
--battleManager: BattleManager 
-
-+createNewChannel(userID1: string, userID2: string): void 
-
-+getBattleQueue(): void 
-
-} 
-
-  
-
-class AccountManager { 
-
-+getUserRank(PlayerID: string): int 
-
-} 
-
-  
-
-class BattleQueueManager { 
-
--battleList: Tree<UserID> 
-
-+findPlayerRank(numOfPlayer: int, rank: int): int 
-
-} 
-
-  
-
-class ClientMessageManager { 
-
--userConnections: array<UserConnection> 
-
-+receiveMessage(): string 
-
-+sendMessage(): void 
-
-} 
-
-  
-
-class UserConnection { 
-
--socket: Socket 
-
--status: int 
-
-+initTCPConnection(): void 
-
-} 
-
-  
-
-Interface BattleManager { 
-
-+initGamePlay() 
-
-+updateGameState() 
-
-} 
-
-  
-
-class BattlePlayerManager { 
-
--userID1: string 
-
--userID2: string 
-
--state: int 
-
-+initGameplay() 
-
-+updateGameState() 
-
-} 
-
-  
-
-ClientMessageManager -o Server 
-
-ClientMessageManager "1" -- "0..*" UserConnection 
-
-Server o- BattleQueueManager 
-
-BattleQueueManager "1" -- "1" AccountManager 
-
-Server o-- BattlePlayerManager 
-
-BattlePlayerManager --|> BattleManager 
-
-} 
-
- 
-
-skinparam packageStyle rectangle 
-
-skinparam classAttributeIconSize 0 
-
-  
-
-  
-
-package Server { 
-
-class Server { 
-
--channelThread: Thread 
-
--battleQueue: BattleQueueManager 
-
--battleManager: BattleManager 
-
-+createNewChannel(userID1: string, userID2: string): void 
-
-+getBattleQueue(): void 
-
-} 
-
-  
-
-class AccountManager { 
-
-+getUserRank(PlayerID: string): int 
-
-} 
-
-  
-
-class BattleQueueManager { 
-
--battleList: Tree<UserID> 
-
-+findPlayerRank(numOfPlayer: int, rank: int): int 
-
-} 
-
-  
-
-Interface BattleManager { 
-
-+initGamePlay() 
-
-+updateGameState() 
-
-} 
-
-  
-
-class BattleBotManager { 
-
--userID1: string 
-
--bot: Bot 
-
--state: int 
-
-+initGameplay() 
-
-+updateGameState() 
-
-} 
-
-  
-
-class Bot { 
-
--botState: int 
-
-+initTower(): void 
-
-+initMonster(): void 
-
-+initSpell(): void 
-
-+findOptimalPath(): void 
-
-+action(): Action 
-
-} 
-
-  
-
-Interface Action { 
-
-+Energy: int 
-
-} 
-
-  
-
-class Attack { 
-
-+spell(): void 
-
-+createMonster(): void 
-
-} 
-
-  
-
-class Defense { 
-
-+buildTower(): void 
-
-} 
-
-  
-
-Attack <|-- Action 
-
-Defense <|-- Action 
-
-Action "1..*" - "1" Bot 
-
-Server o- BattleQueueManager 
-
-BattleQueueManager "1" -- "1" AccountManager 
-
-Server o-- BattleBotManager 
-
-BattleBotManager --|> BattleManager 
-
-Bot -o BattleBotManager 
-
-} 
-
-
-
-
 package Client{
+    class BattleListManager {
+battleList: priorityQueuePool<UserID>
+waitTime: Time
+playerBattleId: string
+findMatchView: FindMatchView
+rankConstraint: int
+joinBattle(UserID: string): void
+onReceiveAcceptPacket(): void
+getBattleList(): void
+checkBattle(UserID: string): void
+increaseRankConstraint(): void
+initGamePlayManager()
+}
+
+class FindMatchView {
+duration: int
+view: Scene
+showView(): void
+onClickFightButton()
+onClickLeaveButton()
+}
+  
+class WinMatchView {
+  view: Scene
+  reward: Reward
+  showView(): void
+  onClickLeaveButton()
+  initView(Reward)
+  }
+  
+class BattleMatchView {
+  view: Scene
+  showView()
+  addOnClickEvent()
+  }
+  
+class AlertView {
+  view: Scene
+  showView()
+  }
+
     class GameClient{
         _tcpClient: GsnClient
         packetFactory: InPacketFactory
@@ -1884,6 +1412,7 @@ package Client{
         Packet getOutPacket(cmd)
         void _onReceived(cmd, pkg)
         void onReceivedPacket(cmd, packet)
+        void battle()
     }
 
 
@@ -1992,6 +1521,32 @@ package Client{
         Packet[CMD.ADD_ITEM]: inPacket
 
         Packet[CMD.OPEN_CHEST]: inPacket
+
+  Packet[CMD.BATTLE_LIST]: inPacket
+  Packet[CMD.OFFER_BATTLE]: inPacket
+  Packet[CMD.ACCEPT_BATTLE]: inPacket
+  Packet[CMD.ROOM_INFO]: inPacket
+  Packet[CMD.PLAYER_INFO]: inPacket
+  Packet[CMD.BUILD_TOWER]: inPacket
+  Packet[CMD.FINISH_TOWER]: inPacket
+  Packet[CMD.CAST_SPELL]: inPacket
+  Packet[CMD.SPAWN_CREATURE]: inPacket
+  Packet[CMD.CHECK_DISCONNECT]: inPacket
+  Packet[CMD.WINNER]: inPacket
+  Packet[CMD.REWARD]: inPacket
+  Packet[CMD.EVENT_NOT_VALID]: inPacket
+  
+  CmdGetBattleList: outPacket
+  CmdGetRoomInfo: outPacket
+  CmdBattleRequest: outPacket
+  CmdCastSpell: outPacket
+  CmdBuildTower: outPacket
+  CmdSpawnCreature: outPacket
+  CmdCastSpell: outPacket
+  CmdCheckWin: outPacket
+  CmdCheckLose: outPacket
+  CmdIsConnect: outPacket
+  
         ==
         void onReceivedPacket(cmd, pk)
         void sendGetUserInfo()
@@ -2002,7 +1557,14 @@ package Client{
         void SendOpenChest()
         void SendUnclockNowChest()
         void SendBuy()
-
+  void sendGetBattleList()
+  void sendBattleRequest()
+  void sendGetRoomInfo()
+  void sendSpawnCreature()
+  void sendCastSpell()
+  void sendCheckWin()
+  void sendCheckLose()
+  void sendConnect()
     }
 
     Packet <|-- inPacket
@@ -2021,6 +1583,13 @@ package Client{
 
     Network -- GameClient
     Network -- Packet
+    BattleListManager o-- GamePlayManager
+BattleListManager *-- FindMatchView
+GameClient o- BattleListManager
+Network -o GameClient
+GamePlayManager -- WinMatchView
+GamePlayManager -- AlertView
+GamePlayManager -- BattleMatchView
 
 }
 
@@ -2102,6 +1671,78 @@ package Server{
         chestId: int
     }
 
+    class o_AcceptBattle {
+playerID: int
+opponentID:int
+}
+
+class o_OfferBattle {
+opponentID:int
+}
+  
+class o_ResponseOpponentInfo {
+playerInfo: PlayerInfo
+  createData()
+}
+  
+  class o_BuildTower {
+    tower: sTower
+    createData()
+  }
+  
+  class o_FinishTower {
+    tower: sTower
+    createData()
+  }
+  
+  class o_SpawnCreature {
+    creature: sCreature
+    createData()
+  }
+  
+  class o_CastSpell {
+    spell: sSpell
+    createData()
+  }
+  
+  class o_CheckDisconnect {
+  }
+  
+  class o_Winner {
+    playerID: int
+  }
+  
+  class o_Reward {
+    reward: sReward
+  }
+  
+  class o_RequestBattleList {
+    userList: List<UserID>
+  }
+  
+  class o_Map {
+    map: sMap
+    createData()
+  }
+  
+  class o_EventNotValid {
+    alert: bool
+  }
+  
+   o_AcceptBattle --|> BaseMsg
+  o_OfferBattle --|> BaseMsg
+   o_ResponseOpponentInfo --|> BaseMsg
+  o_BuildTower --|> BaseMsg
+   o_FinishTower --|> BaseMsg
+  o_SpawnCreature --|> BaseMsg
+  o_FinishTower --|> BaseMsg
+  o_CastSpell --|> BaseMsg
+  o_CheckDisconnect --|> BaseMsg
+  o_Winner --|> BaseMsg
+  o_Reward --|> BaseMsg
+  BaseMsg <|-- o_RequestBattleList 
+  BaseMsg <|-- o_EventNotValid
+
 
     BaseMsg <|-- o_i_UserInfo
     BaseMsg <|-- o_AddCard
@@ -2156,6 +1797,65 @@ package Server{
     class i_Buy{
         itemId: int
     }
+    class i_RequestBattle {
+  playerID: int
+  opponentID: int
+  }
+  
+  class i_RequestBuildTower {
+    playerID: int
+    roomID: int
+    unpackData(): sTower
+  }
+  
+  class i_RequestFinishTower {
+    playerID: int
+    roomID: int
+    unpackData(): sTower
+  }
+  
+  class i_RequestSpawnCreature {
+    playerID: int
+    roomID: int
+    unpackData(): sCreature
+  }
+  
+  class i_RequestCastSpell {
+    playerID: int
+    roomID: int
+    unpackData(): sSpell
+  }
+  
+  class i_CheckWin {
+    playerID: int
+    roomID: int
+    unpackData(): bool
+  }
+  
+  class i_CheckLose {
+    playerID: int
+    roomID: int
+    unpackData(): bool
+  }
+  
+  class i_Connect {
+  }
+  
+  class i_RequestRoomInfo {
+  
+  }
+  
+  
+  
+   i_RequestBattle --|> BaseCmd
+    i_RequestBuildTower --|> BaseCmd
+    i_RequestFinishTower --|> BaseCmd
+    i_RequestSpawnCreature --|> BaseCmd
+    i_RequestCastSpell --|> BaseCmd
+    i_CheckWin --|> BaseCmd
+  i_CheckLose --|> BaseCmd
+  i_Connect --|> BaseCmd
+  i_RequestRoomInfo --|> BaseCmd
 
     BaseCmd <|--  i_Login
     BaseCmd <|-- i_UpgradeCard
@@ -2181,7 +1881,12 @@ package Server{
     class BZExtension{}
 
     class Extension{
+        battleQueue: BattleRequestHandler
+        oomsHandler: RoomsHandler
+
         ==
+        addRequestHandler()
+    addEventHandler()
         void doLogin(short cmdId, ISession session, DataCmd objData)
         UserInfo getUserInfo(String username, int userId, String ipAddress)
     }
@@ -2193,6 +1898,186 @@ package Server{
     BZExtension <|-- Extension
 
 
+    class BattleRequestHandler {
+battleList: priorityQueue<UserID, WaitTime>
+battleMatch: HashMap<UserID, OpponentID>
+findPlayersWithRank(numOfPlayer: int, rank: int): int
+handleServerEvent()
+initRoomHandler()
+onReceiveBattleRequest(userID, opponentID)
+isBattleAccepted(UserID): bool
+startRoom()
+sendBattleList(UserID)
+}
+  
+class RoomsHandler {
+  roomList: List<Room>
+  initRoom(List<UserID>)
+  onReceiveGetRoomInfo(UserID): RoomID
+  onReceiveEvent(UserID, RoomID, BaseMsg)
+  checkRoomTerminateEvent(RoomID)
+  initBotRoom(UserID)
+}
+  
+class Room {
+  roomID: int
+  playerInfoList: HashMap<UserID, sPlayerInfo>
+  responseTime: HashMap<UserID, Time>
+  isBot: false
+  gameplaymanager: sGameplayManager
+  initGamePlayManager()
+  getRoomID(UserID)
+  getOpponentInfo(UserID, RoomID): sPlayerInfo
+  getPacketForEvent(cmdID): packet
+  sendPacketForEvent(cmdID, UserID) 
+  createPlayerEvent()
+  forwardPacket(packet, UserID)
+  createPacket(cmdID, packet)
+  checkDisconnect(waitPacketTime): packet
+  addTimeUpEvent()
+  addTerminateEvent()
+}
+  
+class RoomBot {
+  isBot: true
+  bot: Bot
+  initBot()
+  }
+  
+  class Bot {
+  fakePlayerInfo: sPlayerInfo
+    initFakeInfo()
+    botState: int
+initTower(): void
+initMonster(): void
+initSpell(): void
+findOptimalPath(): void
+action(): Action
+  }
+
+Interface Action {
++Energy: int
+}
+
+class Attack {
+spell(): sSpell
+createCreature(): sCreature
+}
+
+class Defense {
+buildTower(): sTower
+}
+  
+  class sPlayerInfo{
+    id: int
+    pw: char[60]
+    name: char[15]
+    Ava: img
+    credit: int
+    login_time: time
+    logout_time: time
+    ==
+    void getter()
+    void setter()
+}
+  
+class sMap {
+mapData: int [][]
+creatureList: sCreature []
+towerList: sTower []
+getCreatureList()
+getTowerList()
+}
+  
+class sTower {
+id: int
+towerClass: int
+position: Point
+  evolutedLevel: int
+  startBuildTime: Time
+  Energy: int
+}
+  
+class sCreature {
+id: int
+  type: int
+  path: int [][]
+  findPath()
+  }
+  
+class sMonster {
+  attribute: sMonsterAtrribute
+  checkValidAttribute(): bool
+  }
+  
+class sBoss {
+  attribute: sBossAttribute
+  checkValidAttribute(): bool
+  }
+
+  class sMinion {
+  attribute: sMinionAttribute
+  checkValidAttribute(): bool
+  }
+  
+  class sSpell {
+    startTime: int
+    attribute: sSpellAttribute
+    checkValidAttribute(): bool
+  }
+
+  class sMonsterAtrribute {
+  consumingEnergy: int  
+  isFlyer: bool
+}
+  class sBossAttribute {
+  }
+  class sMinionAttribute {
+  }
+  class sSpellAttribute {
+    type: int 
+    effectType: int
+  }
+  
+  class sReward {
+  currency: List<Currency>  
+  }
+  
+class sGamePlayManager { 
+  mapList: HashMap<UserID, sMap>
+  
+  onUpdateTowerEvent(UserID, sTower)
+  onSpawnMonsterEvent(UserID, sMonster)
+  onCastSpellEvent(UserID, sSpell)
+  updateMonsterPath()
+generateMap() 
+  updateMap()
+addMapData()
+  handleEventMsg()
+  unpackEventData(packet)
+  packEventData(cmdID): packet
+  isEventValid(cmdID): bool
+  checkWin(): UserID
+} 
+
+Extension - BattleRequestHandler
+o_AcceptBattle -- BattleRequestHandler
+o_OfferBattle -- BattleRequestHandler
+RequestBattle -- BattleRequestHandler
+Extension -- RoomsHandler
+RoomsHandler -- Room
+Room -- sGamePlayManager
+  Room -- sPlayerInfo
+sGamePlayManager - sMap
+  sMap - sCreature
+  sMap - sTower
+  sReward - Room
+  sBoss -- sBossAttribute
+  sMinion -- sMinionAttribute
+  sSpell -- sSpellAttribute
+  sMonster -- sMonsterAtrribute
+
+}
 }
 
 @enduml 
