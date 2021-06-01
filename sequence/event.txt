@@ -1,0 +1,47 @@
+@startuml
+box Client 1
+actor Player
+participant GameClient
+participant Network
+participant BattleListManager
+participant BattleMatchView
+participant GamePlayManager
+GamePlayManager -> Network: updateTower()
+Network -> RoomsHandler: sendUpdateTower(RoomID)
+activate Network
+endbox
+box Server
+participant RoomsHandler
+participant Room
+participant sGamePlayManager
+participant i_RequestBuildTower
+participant o_EventNotValid
+
+
+endbox
+
+RoomsHandler -> i_RequestBuildTower: getPacketForEvent()
+Room -> sGamePlayManager: createPlayerEvent()
+sGamePlayManager -> i_RequestBuildTower: unpackEventData(packet)
+i_RequestBuildTower -> i_RequestBuildTower: unpack(): sTower
+sGamePlayManager -> sGamePlayManager: isEventValid(cmdId)
+
+alt event not valid
+sGamePlayManager -> o_EventNotValid: packEventData(cmdId = EVENT_NOT_VALID): packet
+o_EventNotValid -> sGamePlayManager
+sGamePlayManager -> Room
+Room -> Room: createPacket(cmdID, UserID, packet)
+Room -> Network: sendPacketForEvent(cmdID, UserID)
+
+else event is valid:
+Room -> Network2: forwardPacket(packet, UserID)
+sGamePlayManager -> sGamePlayManager: onUpdateTowerEvent()
+sGamePlayManager -> sGamePlayManager: addDataMap()
+sGamePlayManager -> sGamePlayManager: updateMonsterPath()
+
+end
+
+box client 2
+participant Network2
+end box
+@enduml

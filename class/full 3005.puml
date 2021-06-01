@@ -1583,13 +1583,14 @@ class AlertView {
 
     Network -- GameClient
     Network -- Packet
-    BattleListManager o-- GamePlayManager
+    GameClient -- GamePlayManager
 BattleListManager *-- FindMatchView
 GameClient o- BattleListManager
 Network -o GameClient
 GamePlayManager -- WinMatchView
 GamePlayManager -- AlertView
 GamePlayManager -- BattleMatchView
+GamePlayManager -- Network
 
 }
 
