@@ -1,0 +1,37 @@
+title Login
+
+participant PlayerInfo
+participant Network
+participant GameClient
+
+participant GsnClient
+participant Server
+participant Handler
+participant User
+participant sPlayerInfo
+participant ServerUtil
+
+GameClient->GameClient: sendGetUserInfo()
+activate GameClient
+GameClient->GameClient: getOutPacket(CmdSendUserInfo)
+GameClient->GsnClient: send(packet)
+deactivate GameClient
+activate GsnClient
+GsnClient->Server: packet
+activate Server
+Server->Handler: handleClientRequest(User, cmd)
+activate Handler
+Handler->Handler: getUserInfo()
+Handler->User: getProperty(ServerConstant.PLAYER_INFO)
+User-->Handler: sPlayerInfo
+alt if sPlayerInfo == null
+Handler->Handler: sPlayerInfo = new sPlayerInfo
+end
+Handler->Handler: send(new o_UserInfo(sPlayerInfo, User)
+Handler->Network: UserInfo packet
+activate Network
+Network->Network: onReceivedPacket()
+Network->PlayerInfo: update(name, avt, credit, Gold, G)
+activate PlayerInfo
+
+

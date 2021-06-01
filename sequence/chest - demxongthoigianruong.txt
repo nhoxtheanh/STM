@@ -1,0 +1,75 @@
+title Kiểm tra thời gian mở rương
+
+actor Player
+participant PlayerInfo
+participant Inventory
+participant ChestBox
+participant Chest
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sChestBox
+participant sChest
+participant sInventory
+participant sPlayerInfo
+
+activate Player
+alt loop
+activate Chest
+
+Chest->Chest: checkOpenTime()
+note left of Chest: checkOpenTime() return 1
+Chest->Network: SendChestDone()
+activate Network
+deactivate Chest
+Network->GameClient: getOutPacket(CmdSendChestDone)
+activate GameClient
+
+GameClient-->Network: packet
+Network->GameClient: send(packet)
+GameClient->Server: packet
+activate Server
+deactivate GameClient
+deactivate Network
+Server->Handler: onReceivePacket()
+deactivate Server
+activate Handler
+Handler->sChest: checkOpenTime()
+activate sChest
+note right of sChest: checkOpenTime() return 1
+
+sChest->sChest: unlock()
+sChest->sInventory: addCard(...)
+activate sInventory
+sChest->sPlayerInfo: setter()
+activate sPlayerInfo
+deactivate sInventory
+sChest->sChestBox: removeChest(chestPos)
+deactivate sPlayerInfo
+activate sChestBox
+sChest->Handler: send(new o_OpenChest(), User)
+
+deactivate sChestBox
+
+Handler->Network: packet
+activate Network
+
+deactivate Handler
+
+
+Network->ChestBox: removeChest()
+activate ChestBox
+Network->PlayerInfo: setter()
+deactivate ChestBox
+activate PlayerInfo
+Network->Inventory: addCard() x n
+activate Inventory
+deactivate PlayerInfo
+Network->Chest: open()
+activate Chest
+Chest->Chest: showReceive()
+Chest-->Player: show UI 
+deactivate Chest
+
+end

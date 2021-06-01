@@ -1,0 +1,18 @@
+title Chức năng xem rương
+
+actor Player
+participant ChessBox
+participant Chess
+activate ChessBox
+activate Player
+Player->ChessBox: open Home GUI
+ChessBox->ChessBox: showGUI()
+ChessBox->Chess: showGUI()
+activate Chess
+Chess-->ChessBox: show UI
+
+ChessBox-->Player: show UI
+deactivate ChessBox
+Player->Chess: click on a chess
+Chess->Chess: showInfo()
+Chess -->Player: show UI

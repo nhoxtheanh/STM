@@ -1,0 +1,65 @@
+title Xong ngay rương
+
+actor Player
+participant PlayerInfo
+participant Inventory
+participant ChestBox
+participant Chest
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sChestBox
+participant sChest
+participant sInventory
+participant sPlayerInfo
+
+activate Player
+Player->Chest: click on Xong ngay button
+activate Chest
+Chest->Chest:unlocknow()
+Chest->Chest: checkG()
+Chest->Network: SendUnlockNowChest(chestID)
+activate Network
+Network->GameClient: getOutPacket(CmdSendUnlockNowChest)
+activate GameClient
+Network->GameClient: send(packet)
+deactivate Network
+GameClient->Server: packet
+deactivate GameClient
+activate Server
+Server->Handler: onReceivePacket()
+deactivate Server
+activate Handler
+
+Handler->sChest: unlocknow()
+activate sChest
+sChest->sChest: checkG
+sChest->sChest: open()
+sChest->sPlayerInfo: setter()
+sChest->sInventory: addCard() x n
+sChest->sChestBox: removeChest()
+
+deactivate sChestBox
+sChest->Handler: send(new o_UpdateGold(), User)
+deactivate sChestBox
+sChest->Handler: send(new o_AddCard(), User)
+sChest->Handler: ...
+Handler->Network: packet
+activate Network
+Handler->Network: packet
+Handler->Network: ...
+deactivate Handler
+Network->Chest: open()
+
+
+Chest->Chest: showReceive()
+deactivate Chest
+
+Network->ChestBox: removeChest()
+activate ChestBox
+Network->PlayerInfo: setter()
+deactivate ChestBox
+activate PlayerInfo
+Network->Inventory: addCard() x n
+activate Inventory

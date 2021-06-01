@@ -1,0 +1,55 @@
+@startuml
+title Mua đồ trong shop
+
+participant TimedShopItemList
+participant ShopItem
+participant Object
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sShopItem
+participant sTimedShopItemList
+
+
+alt Loop per day or when player signs in
+TimedShopItemList->TimedShopItemList: checkrenew()
+activate TimedShopItemList
+note left of TimedShopItemList: checkrenew return 1
+
+TimedShopItemList->Network: SendRenewShopItemList()
+deactivate TimedShopItemList
+activate Network
+Network->GameClient: getOutPacket(CmdSendRenewShopItemList)
+activate GameClient
+GameClient->Network: packet
+Network->GameClient: send(packet)
+deactivate Network
+GameClient->Server: packet
+deactivate GameClient
+activate Server
+Server->Handler: onReceivePacket()
+deactivate Server
+activate Handler
+Handler->sTimedShopItemList: checkrenew()
+activate sTimedShopItemList
+
+sTimedShopItemList->sTimedShopItemList: renew()
+sTimedShopItemList->Handler: send(new o_RenewShopItemList(), User)
+
+deactivate sTimedShopItemList
+Handler->Network: packet
+deactivate Handler
+activate Network
+
+Network->Network: onReceivePacket()
+Network->ShopItem: setter()
+activate ShopItem
+ShopItem->Object: setter()
+activate Object
+deactivate ShopItem
+deactivate Network
+deactivate Object
+
+end
+@enduml

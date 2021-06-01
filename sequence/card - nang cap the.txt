@@ -1,0 +1,56 @@
+title Chức năng nâng cấp thẻ
+
+actor Player
+participant PlayerInfo
+participant Inventory
+participant Card
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sInventory
+participant sCard
+participant sPlayerInfo
+activate Player
+
+Player->Card: click on nang cap
+activate Card
+Card->Card: checkLevelUp()
+alt Đủ vàng nâng cấp
+Card->Network: SendUpgradeCard()
+activate Network
+Network->GameClient: getOutPacket(CmdSendUpgradeCard)
+activate GameClient
+GameClient->Server: packet
+deactivate GameClient
+activate Server
+Server->Handler: onReceivePacket()
+activate Handler
+deactivate Server
+Handler->sInventory: levelup(cardId)
+activate sInventory
+sInventory->sCard: checklvup()
+deactivate sInventory
+activate sCard
+sCard->sCard: lvup()
+sCard->sPlayerInfo: setter()
+activate sPlayerInfo
+sCard->Handler: send(new o_UpgradeCard(), User)
+deactivate sCard
+Handler->Network: packet
+deactivate Handler
+deactivate sPlayerInfo
+Network->Inventory: levelup(cardId)
+activate Inventory
+Inventory->Card: levelup()
+Inventory->PlayerInfo: seter()
+activate PlayerInfo
+deactivate Inventory
+deactivate Card
+deactivate Network
+deactivate PlayerInfo
+end
+
+alt Ko du vang nang cap
+Card-->Player: show error notification
+end

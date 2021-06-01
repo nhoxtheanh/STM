@@ -1,0 +1,44 @@
+title Chức năng xem cấp tiến hóa
+
+actor Player
+participant CardManager
+participant CardList
+participant Card
+activate Player
+Player->CardManager: open Cards
+activate CardManager
+CardManager->CardManager: showGUI()
+activate CardList
+CardManager->CardList: showGUI()
+activate Card
+CardList->Card: showGUI()
+Card-->CardList: show UI
+
+CardList-->CardManager: show UI
+deactivate CardList
+CardManager->Player: show UI
+deactivate CardManager
+Player->Card: Click on a card
+Card->Card: showInfo()
+Card-->Player: show card Information
+
+alt doi the
+Player->Card: click on Chọn button
+Card->Card: closeInfo()
+Card->Card: showGUI()
+
+activate CardManager
+Card->CardManager: selectaCard()
+
+CardManager->CardList: closeGUI()
+activate CardList
+== ==
+Player->Card:Click on another card
+Card->Card: closeGUI()
+Card->CardManager: swapCard()
+CardManager->CardList: showGUI()
+CardList->Card: showGUI()
+Card->CardList: show UI
+CardList->CardManager: show UI
+CardManager->Player: show UI
+end

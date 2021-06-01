@@ -1,0 +1,68 @@
+@startuml
+title Mua đồ trong shop
+
+actor Player
+participant PlayerInfo
+participant Inventory
+participant ShopItem
+participant Object
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sShopItem
+
+
+Player->ShopItem: click on Buy button
+activate Player
+activate ShopItem
+ShopItem->ShopItem: checkBuy()
+alt checkBuy() return 1 
+
+ShopItem->ShopItem: buy()
+ShopItem->Network:SendBuy(itemID)
+Network->GameClient: getOutPacket(CmdSendBuy)
+activate Network
+GameClient->Server: packet
+activate GameClient
+
+Server->Handler: handleClientRequest()
+activate Server
+deactivate GameClient
+activate Handler
+Handler->sShopItem: checkBuy()
+activate sShopItem
+
+deactivate Server
+
+sShopItem->sShopItem: Buy()
+sShopItem->Handler: sGold, sCard[]
+alt packets
+Handler->Handler: send(new o_UpdateGold(), User)
+Handler->Handler: send(new o_AddCard(), User)
+Handler->Handler: send(new o_OpenChest(), User)
+end
+
+alt if shopitem is OnceShopItem:
+Handler->Handler: send(new o_UpdateShopItem(), User)
+end
+Handler-->Network: receive packet
+deactivate Handler
+
+Network->Network: 	onReceivePacket()
+Network->ShopItem: showReceive()
+Network->PlayerInfo: updateGold()
+activate PlayerInfo
+Network->PlayerInfo: updateG()
+deactivate PlayerInfo
+
+Network->Inventory: addCard() x n
+activate Inventory
+deactivate Network
+deactivate ShopItem
+deactivate Inventory
+end
+alt checkBuy() return 0
+ShopItem-->Player: show error notification
+end
+@enduml

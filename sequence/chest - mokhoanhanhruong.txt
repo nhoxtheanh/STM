@@ -1,0 +1,70 @@
+title Mở khóa rương khi không còn chỗ trống
+
+actor Player
+participant PlayerInfo
+participant Inventory
+participant ChestBox
+participant Chest
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sChestBox
+participant sChest
+participant sInventory
+participant sPlayerInfo
+
+activate Player
+Player->Chest: click on Mớ ngay button
+activate Chest
+Chest->Chest:unlocknow()
+Chest->Chest: checkG()
+note left of Chest: checkG() return 1
+Chest->Network: SendUnlockNowChest(chestID)
+deactivate Chest
+activate Network
+Network->GameClient: getOutPacket(CmdSendUnlockNowChest)
+activate GameClient
+Network->GameClient: send(packet)
+deactivate Network
+GameClient->Server: packet
+deactivate GameClient
+activate Server
+Server->Handler: onReceivePacket()
+deactivate Server
+activate Handler
+
+Handler->sChest: unlocknow()
+activate sChest
+sChest->sChest: checkG()
+note left of sChest: checkG() return 1
+sChest->sChest: open()
+sChest->sPlayerInfo: setter()
+sChest->sInventory: addCard() x n
+sChest->sChestBox: removeChest()
+
+sChest->Handler: send(new o_OpenChest(), User)
+deactivate sChestBox
+
+Handler->Network: packet
+activate Network
+
+deactivate Handler
+
+
+Network->ChestBox: removeChest()
+activate ChestBox
+Network->PlayerInfo: setter()
+deactivate ChestBox
+activate PlayerInfo
+Network->Inventory: addCard() x n
+activate Inventory
+Network->Chest: open()
+activate Chest
+deactivate Inventory
+deactivate PlayerInfo
+
+
+Chest->Chest: showReceive()
+Chest->Player: show UI
+deactivate Chest

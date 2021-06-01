@@ -1,0 +1,74 @@
+title Login
+
+actor Player
+participant Login
+participant Network
+participant Signal
+participant GameClient
+
+participant GsnClient
+participant Server
+participant Extension
+participant RequestLogin
+participant ExtensionUtility
+participant LoginSuccessHandler
+participant sPlayerInfo
+participant Handler
+
+Player -> Login: Input ID and click Login button
+activate Player
+activate Login
+Login->Login: callLogin()
+alt handshaking
+Login->GameClient: connect()
+activate GameClient
+GameClient->GsnClient: connect(ip, port)
+activate GsnClient
+GsnClient->Server: SYN packet
+activate Server
+Server->GameClient: SYN + ACK packet
+GameClient->GameClient: onFinishConnect()
+GameClient->GameClient: getoutPacket(CmdSendHandshake)
+GameClient->GsnClient: send(packet)
+GsnClient->Server: ACK packet
+end
+GameClient->GameClient: _onReceived(cmd, pk)
+GameClient->GameClient: onReceivedPacket(cmd, pk)
+GameClient->Signal: dispatch(cmd, pk)
+activate Signal
+Signal->Network: onReceivedPacket(cmd, pk)
+deactivate Signal
+activate Network
+Network->Network: sendLoginRequest()
+
+
+Network->GameClient: getOutPacket(CmdSendUserInfo)
+
+Network->GameClient: sendPacket(packet)
+GameClient->GsnClient: send(packet)
+
+GsnClient->Server: packet
+Server->Extension: doLogin()
+
+activate Extension
+
+Extension->RequestLogin: ctor(DataCmd)
+activate RequestLogin
+Extension->RequestLogin: unpackData()
+Extension->Extension: getuserInfo()
+Extension->ExtensionUtility: canLogin(UserInfo)
+activate ExtensionUtility
+
+activate LoginSuccessHandler
+
+LoginSuccessHandler->LoginSuccessHandler:onLoginSuccess
+
+LoginSuccessHandler->sPlayerInfo: getModel()
+activate sPlayerInfo
+LoginSuccessHandler->ExtensionUtility:  dispatchEvent()
+Handler->Handler: processUserLoginSuccess()
+activate Handler
+Server->GameClient: CmdUserLogin packet
+GameClient->GameClient: sendGetUserinfo()
+
+

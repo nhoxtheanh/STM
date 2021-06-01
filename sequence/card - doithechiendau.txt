@@ -1,0 +1,55 @@
+title Chức năng đổi thẻ chiến đấu
+
+actor Player
+participant Inventory
+participant CardList
+participant Card
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sInventory
+
+activate Player
+Player->Card: click on Chọn button
+activate Card
+Card->Card: closeInfo()
+Card->Card: showGUI()
+
+activate Inventory
+Card->Inventory: selectaCard()
+
+Inventory->CardList: closeGUI()
+activate CardList
+
+Player->Card:Click on another card
+Card->Card: closeGUI()
+Card->Inventory: startswapcard()
+Inventory->Network: SendSwapCard(id1, id2)
+activate Network
+Inventory->Inventory: swapCard(id1, id2)
+
+
+Inventory->CardList: showGUI()
+CardList->Card: showGUI()
+Card->CardList: show UI
+CardList->Inventory: show UI
+Inventory->Player: show UI
+
+Network->GameClient: getOutPacket(CmdSendSwapCard)
+activate GameClient
+Network->GameClient: send(packet)
+GameClient->Server: packet
+deactivate GameClient
+activate Server
+Server->Handler: onReceivePacket()
+deactivate Server
+activate Handler
+Handler->sInventory: swapCard(id1, id2)
+activate sInventory
+sInventory->Handler: send(o_SwapCard(), User)
+deactivate sInventory
+Handler->Network: packet
+deactivate Handler
+Network->Network: onReceivePacket()
+Network->Inventory: doneSwapCard()

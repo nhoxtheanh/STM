@@ -1,0 +1,39 @@
+title Chức năng sắp xếp thẻ
+actor Player
+participant Inventory
+participant CardList
+participant Card
+participant Network
+participant GameClient
+participant Server
+participant Handler
+participant sCardiList
+activate Player
+Player->Inventory: open Cards
+activate Inventory
+Inventory->Inventory: showGUI()
+activate CardList
+Inventory->CardList: showGUI()
+activate Card
+CardList->Card: showGUI()
+Card-->CardList: show UI
+deactivate Card
+CardList-->Inventory: show UI
+Inventory->Player: show UI
+Player->Inventory: click on Sort button
+Inventory->CardList: sort(int)
+deactivate Inventory
+CardList->CardList: showGUI()
+CardList->Player: show UI
+CardList->Network: sendSortCardList()
+activate Network
+Network->GameClient: getOutPacket(CmdSendSortCardList)
+activate GameClient
+GameClient-->Network: packet
+Network->GameClient: send(packet)
+GameClient->Server: packet
+activate Server
+Server->Handler: onReceivePacket()
+activate Handler
+Handler->sCardList: sort(int)
+activate sCardList

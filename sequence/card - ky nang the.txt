@@ -1,0 +1,36 @@
+title Chức năng kỹ năng thẻ
+
+actor Player
+participant CardManager
+participant CardList
+participant Card
+participant Ability
+activate Player
+Player->CardManager: open Cards
+activate CardManager
+CardManager->CardManager: showGUI()
+activate CardList
+CardManager->CardList: showGUI()
+activate Card
+CardList->Card: showGUI()
+Card-->CardList: show UI
+
+CardList-->CardManager: show UI
+deactivate CardList
+CardManager->Player: show UI
+deactivate CardManager
+Player->Card: Click on a card
+Card->Card: showInfo()
+Card->Card: checklevelUp()
+Card-->Player: show card Information
+Player->Card: click on Kỹ năng button
+Card->Ability: showGUI()
+deactivate Card
+activate Ability
+
+Ability-->Player: show UI
+Player->Ability: click on X button
+Ability->Ability: closeGUI()
+activate Card
+Ability->Card: showGUI()
+Card-->Player: show UI
