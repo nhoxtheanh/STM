@@ -5,6 +5,16 @@ Player->PlayGUI: placeCard
 PlayGUI->GamePlayManager: onPlaceCard(Card,Point)
 GamePlayManager->GamePlayManager: checkBuildOrUpgrade(Card,Point)
 
+
+GamePlayManager->Network: onSendTower(Tower)
+
+group Oponent
+
+Network->Network:onReceivedPacket()
+Network->GamePlayManager: addTower(Tower)
+
+end
+
 alt build
 
 GamePlayManager->GamePlayManager: checkValidPosition(Point)
