@@ -6,6 +6,15 @@ renderSpell()
 renderTower()
 } 
 
+class Map {
+isOponentMap: bool
+mapData: int [][]
+creatureList: Creature []
+towerList: Tower []
+getCreatureList()
+getTowerList()
+}
+
 class PlayGUI { 
 renderDeck()
 }
@@ -14,11 +23,8 @@ renderDeck()
 class GamePlayManager { 
 
 mapGUI: MapGUI 
-playGUI: PlayGUI
-creatureListA: Creature [] 
-creatureListB: Creature [] 
-towerListA: Tower [] 
-towerListB: Tower [] 
+playerMap: Map
+oponentMap: Map
 cardDeck: BattleCardList
   
 generateMap() 
@@ -37,3 +43,5 @@ GamePlayManager -- PlayGUI: have
 GamePlayManager -- BattleCardList: have
 GamePlayManager -- Tower: have
 GamePlayManager -- Creature: have
+GamePlayManager -- Map: have
+GamePlayManager -- Network
