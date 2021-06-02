@@ -5,16 +5,6 @@ Player->PlayGUI: placeCard
 PlayGUI->GamePlayManager: onPlaceCard(Card,Point)
 GamePlayManager->GamePlayManager: checkBuildOrUpgrade(Card,Point)
 
-
-GamePlayManager->Network: onSendTower(Tower)
-
-group Oponent
-
-Network->Network:onReceivedPacket()
-Network->GamePlayManager: addTower(Tower)
-
-end
-
 alt build
 
 GamePlayManager->GamePlayManager: checkValidPosition(Point)
@@ -27,6 +17,13 @@ else Support tower
 Tower->GamePlayManager: BuffEffectZone
 end
 GamePlayManager->MapGUI: renderTower()
+GamePlayManager -> Network: updateTower(Tower)
+abox over Network: Event Sequence on Network & Server
+group Oponent
+Network->Network:onReceivedPacket()
+Network->GamePlayManager: addTower(TowerData)
+end
+
 loop while not end game
 Player->PlayGUI: clickOnTower
 PlayGUI->PlayGUI: showSelectTargetDeterminingMethodGUI()
@@ -50,6 +47,12 @@ else Support tower
 Tower->GamePlayManager: BuffEffectZone
 end
 GamePlayManager->MapGUI: renderTower()
+GamePlayManager -> Network: updateTower(Tower)
+abox over Network: Event Sequence on Network & Server
+group Oponent
+Network->Network:onReceivedPacket()
+Network->GamePlayManager: addTower(TowerData)
+end
 else unable to upgrade
 Tower->GamePlayManager: unAbleToUpgrade
 GamePlayManager->PlayGUI : cancelPlaceCard()
