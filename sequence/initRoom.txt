@@ -1,0 +1,54 @@
+@startuml
+box Client 1
+actor Player
+participant Client
+participant Network
+participant BattleListManager
+participant BattleMatchView
+participant GamePlayManager
+GamePlayManager -> Network: getRoomInfo(UserID, RoomID)
+activate Network
+endbox
+box Server
+participant RoomsHandler
+participant Room
+participant sGamePlayManager
+participant Bot
+participant RoomBot
+endbox
+Network -> RoomsHandler: sendGetRoomInfo(UserID, RoomID)
+Network2 -> RoomsHandler: sendGetRoomInfo(UserID, RoomID)
+
+activate Client
+loop battle list choosing
+RoomsHandler -> Room: onReceiveGetRoomInfo(UserID)
+alt isBot = false
+Room -> Room: getOpponentInfo(UserID, RoomID): PlayerInfo
+Room -> sGamePlayManager: initGamePlayManager()
+sGamePlayManager -> sGamePlayManager: generateMap()
+sGamePlayManager -> sGamePlayManager: packEventData(Map)
+sGamePlayManager -> Room
+Room -> Room: createPacket(cmdID, UserID, packet)
+Room -> Network: sendPacketForEvent(cmdID, UserID)
+
+else isBot = true
+RoomsHandler -> RoomBot: initRoomBot(UserID)
+RoomBot -> Bot: initBot()
+Bot -> Bot: initFakeInfo()
+RoomBot -> sGamePlayManager: initGamePlayManager()
+sGamePlayManager -> sGamePlayManager: generateMap()
+sGamePlayManager -> sGamePlayManager: packEventData(Map)
+sGamePlayManager -> RoomBot
+Room -> Room: createPacket(cmdID, UserID, packet)
+Room -> Network: sendPacketForEvent(cmdID, UserID)
+
+end
+end
+
+Network -> GamePlayManager: onReceivedPacket(cmd, packet)
+GamePlayManager -> BattleMatchView: showView()
+
+box client 2
+participant Network2
+end box
+@enduml
