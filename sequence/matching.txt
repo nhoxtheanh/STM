@@ -1,14 +1,18 @@
 @startuml
 box Client 1
 actor Player
-participant Client
+participant GameClient
 participant Network
 participant BattleListManager
 participant BattleMatchView
-participant GamePlayManager
-GamePlayManager -> BattleMatchView: showView()
-GamePlayManager -> Network: getRoomInfo(UserID, RoomID)
+Player -> GameClient: Battle Feature
+GameClient -> BattleListManager: battle()
+BattleListManager -> FindMatchView: showView()
+BattleListManager -> Network: getBattleList()
 activate Network
+Network -> BattleRequestHandler: sendGetBattleList()
+BattleRequestHandler -> BattleRequestHandler: findPlayersWithRank()
+BattleRequestHandler -> Network
 endbox
 box Server
 participant RoomsHandler
@@ -16,12 +20,13 @@ participant Room
 participant sGamePlayManager
 
 endbox
-Network -> RoomsHandler: sendGetRoomInfo(UserID, RoomID)
 
-activate Client
+loop Battle list choosing
+
+activate GameClient
 loop battle list choosing
-RoomsHandler -> Room: onReceiveGetRoomInfo(UserID)
-alt 
+alt out of wait time 5s
+BattleListManager -> BattleListManager: increaseRankConstraint()
 else choose battle
 BattleListManager -> Network: joinBattle(UserID)
 Network -> BattleRequestHandler: RequestBattle(player, opponent)
